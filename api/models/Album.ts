@@ -7,6 +7,7 @@ const AlbumSchema = new Schema({
     title: {
         type: String,
         required: true,
+        unique: true,
     },
     artist: {
         type: Schema.Types.ObjectId,
