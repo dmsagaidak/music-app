@@ -14,7 +14,8 @@ const TrackSchema = new Schema({
         ref: 'Album',
         required: true,
         validate: {
-            validator: async (value: Types.ObjectId) => Album.findById(value)
+            validator: async (value: Types.ObjectId) => Album.findById(value),
+            message: 'Album does not exist'
         }
     },
     duration: {
