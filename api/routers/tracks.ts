@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import Track from "../models/Track";
 import {TrackMutation} from "../types";
+import Album from "../models/Album";
 
 const tracksRouter = express.Router();
 
@@ -12,8 +13,15 @@ tracksRouter.get('/', async (req, res, next) => {
             return res.send(tracks);
         }
 
+        if(req.query.artist){
+            const albums = await Album.find({artist: req.query.artist});
+            const albumIds = albums.map(item => {return item._id});
+            const tracks = await Track.find({album: {$in: albumIds}});
+            return res.send(tracks);
+        }
+
         const tracks = await Track.find().populate('album');
-        return res.send(tracks)
+        return res.send(tracks);
 
     }catch (e) {
         return next(e);
