@@ -1,7 +1,6 @@
 import express from "express";
 import User from "../models/User";
 import mongoose from "mongoose";
-import bcrypt from "bcrypt";
 
 const usersRouter = express.Router();
 
@@ -11,6 +10,8 @@ usersRouter.post('/', async (req, res, next) => {
             username: req.body.username,
             password: req.body.password,
         });
+
+        user.generateToken();
 
         await user.save();
         return res.send(user);
@@ -36,9 +37,29 @@ usersRouter.post('/sessions', async (req, res) => {
         return res.status(400).send({error: 'Password not found'});
     }
 
-    return res.send({message: 'Username and password are correct'});
-})
+    user.generateToken();
+    await user.save();
 
+    return res.send({message: 'Username and password are correct', user});
+});
 
+usersRouter.post('/secret', async (req, res) => {
+    const token = req.get('Authorization');
+
+    if (!token) {
+        return res.status(401).send({error: 'No token present'});
+    }
+
+    const user = await User.findOne({token});
+
+    if (!user) {
+        return res.status(401).send({error: 'Wrong token!'});
+    }
+
+    return res.send({
+        message: 'Secret message',
+        username: user.username
+    });
+});
 
 export default usersRouter;
