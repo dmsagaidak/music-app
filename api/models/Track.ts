@@ -4,6 +4,10 @@ import Album from "./Album";
 const Schema = mongoose.Schema;
 
 const TrackSchema = new Schema({
+    tracknumber: {
+        type: Number,
+        required: true,
+    },
     title: {
         type: String,
         required: true,

@@ -26,7 +26,6 @@ const TrackHistorySchema = new Schema({
     datetime: {
         type: Date,
         required: true,
-        unique: true,
     }
 });
 

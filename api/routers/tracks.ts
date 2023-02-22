@@ -44,6 +44,7 @@ tracksRouter.get('/:id', async(req, res, next) => {
 
 tracksRouter.post('/', async (req, res, next) => {
     const trackData: TrackMutation = {
+        tracknumber: req.body.tracknumber,
         title: req.body.title,
         album: req.body.album,
         duration: req.body.duration,
