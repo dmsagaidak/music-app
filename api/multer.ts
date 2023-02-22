@@ -6,12 +6,12 @@ import config from './config';
 
 const imageStorage = multer.diskStorage({
     destination: async (_req, _file, cb) => {
-        const destDir = path.join(config.publicPath, 'images'); // /Users/tsyganov/projects/js-17/shop-api/public/images
+        const destDir = path.join(config.publicPath, 'images');
         await fs.mkdir(destDir, {recursive: true});
         cb(null, config.publicPath);
     },
     filename: (_req, file, cb) => {
-        const extension = path.extname(file.originalname); // .jpeg
+        const extension = path.extname(file.originalname);
         cb(null, 'images/' + randomUUID() + extension);
     }
 });
