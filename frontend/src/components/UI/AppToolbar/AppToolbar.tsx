@@ -1,5 +1,5 @@
 import React from 'react';
-import {AppBar, Button, Grid, styled, Toolbar, Typography} from '@mui/material';
+import {AppBar, Grid, styled, Toolbar, Typography} from '@mui/material';
 import { Link as NavLink } from 'react-router-dom';
 
 const Link = styled(NavLink)({

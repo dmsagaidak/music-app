@@ -8,4 +8,18 @@ export const fetchArtists = createAsyncThunk<Artist[]>(
     const response = await axiosApi.get('/artists');
     return response.data;
   }
+);
+
+export const fetchOneArtist = createAsyncThunk<Artist, string>(
+  'artists/fetchOne',
+  async (id) => {
+    const response = await axiosApi.get<Artist | null>('/artists/' + id);
+    const artist = response.data;
+
+    if(artist === null) {
+      throw new Error('Artist not found')
+    }
+
+    return artist;
+  }
 )
