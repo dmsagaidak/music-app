@@ -20,9 +20,6 @@ const ArtistPage = () => {
 
   }, [dispatch, id]);
 
-  console.log(artist);
-  console.log(albums);
-
   return (
     <>
       <h3>{artist?.name}</h3>

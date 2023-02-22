@@ -4,6 +4,7 @@ import AppToolbar from './components/UI/AppToolbar/AppToolbar';
 import { Route, Routes } from 'react-router-dom';
 import Artists from './features/artists/Artists';
 import ArtistPage from './features/artists/ArtistPage';
+import AlbumPage from './features/albums/AlbumPage';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Artists/>}/>
             <Route path='/artists/:id' element={<ArtistPage/>}/>
+            <Route path='/albums/:id' element={<AlbumPage/>}/>
             <Route path="*" element={<h1>Not found!</h1>}/>
           </Routes>
         </Container>
