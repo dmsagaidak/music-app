@@ -1,6 +1,6 @@
 import React from 'react';
 import { Artist } from '../../../types';
-import { Button, Card, CardContent, CardHeader, CardMedia, Grid, styled } from '@mui/material';
+import { Button, Card, CardContent, CardHeader, CardMedia, Grid, styled, Typography } from '@mui/material';
 import noImage from '../../../assets/images/noimage.jpg';
 import { apiUrl } from '../../../constants';
 import { useNavigate } from 'react-router-dom';
@@ -31,9 +31,9 @@ const AlbumsItem: React.FC<Props> = ({id, title,artist,year,image}) => {
       <Grid item width={"250px"}>
         <Card style={{textAlign: 'center'}}>
           <CardHeader title={title} />
-          <div style={{width: '200px', marginLeft: "auto", marginRight: "auto"}}>
+          <Typography component={"div"} style={{width: '200px', marginLeft: "auto", marginRight: "auto"}}>
             <ImageCardMedia image={cardImage} title={title}/>
-          </div>
+          </Typography>
           <CardContent>
             Issued in {year}
             <Button onClick={() => navigate('/albums/' + id)}>See details</Button>

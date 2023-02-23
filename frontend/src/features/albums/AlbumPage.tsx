@@ -29,11 +29,17 @@ const AlbumPage = () => {
 
   return (
     <>
-      <img src={albumImg} alt={album?.title} style={{float: 'right', width: '150px'}}/>
-      <h3 style={{marginBottom: '0'}}>{album?.title}</h3>
-      <span>by <a href={frontUrl + '/artists/' + album?.artist._id} style={{textDecoration: 'none'}}>{album?.artist.name}</a></span>
-      <p>Issued in {album?.year}</p>
-      <h4>Track list</h4>
+      <Typography component="img" src={albumImg} alt={album?.title} style={{float: 'right', width: '150px'}}/>
+      <Typography variant="h4" sx={{mb: 3}}>{album?.title} </Typography>
+      <Typography component={"span"}>by
+        <Typography
+          component={"a"} href={frontUrl + '/artists/' + album?.artist._id}
+          style={{textDecoration: 'none'}}>{album?.artist.name}
+        </Typography>
+      </Typography>
+      <Typography component={"p"} sx={{mt: 2}}>Issued in {album?.year}</Typography>
+      <Typography variant={"h5"} sx={{mt: 2, mb: 2}}>Track list</Typography>
+
       {tracks.map(track => (
         <Card sx={{mb: 1}} key={track._id}>
           <Grid container

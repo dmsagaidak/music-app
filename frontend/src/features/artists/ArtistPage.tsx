@@ -5,7 +5,7 @@ import { selectOneArtist } from './artistsSlice';
 import { fetchOneArtist } from './artistsThunks';
 import { selectAlbums } from '../albums/albumsSlice';
 import { fetchAlbumsByArtist } from '../albums/albumsThunks';
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import AlbumsItem from '../albums/components/AlbumsItem';
 import noImage from '../../assets/images/noimage.jpg'
 import { apiUrl } from '../../constants';
@@ -31,12 +31,12 @@ const ArtistPage = () => {
 
   return (
     <>
-      <img src={artistPic} alt={artist?.name} style={{float: 'right', width: '250px'}}/>
-      <h3>{artist?.name}</h3>
-      {artist?.info ? (
-        <div><strong>Bio: </strong>{artist.info}</div>
-      ): (<div><strong>Bio is unavailable</strong></div>)}
-      <h4>Albums</h4>
+      <Typography component="img" src={artistPic} alt={artist?.name} style={{float: 'right', width: '250px'}}/>
+      <Typography variant="h4" sx={{mb: 2}}>{artist?.name}</Typography>
+      {artist?.info ? <Typography component="p"><strong>Bio:</strong> {artist.info}</Typography> :
+        <Typography component="p"><strong>Bio is unavailable</strong></Typography>}
+
+      <Typography variant="h5" sx={{mt: 1}}>Albums</Typography>
       <Grid container direction="row" spacing={2}>
         {albums.map(album => (
           <AlbumsItem
