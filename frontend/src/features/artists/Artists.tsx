@@ -7,11 +7,12 @@ import ArtistsItem from './components/ArtistsItem';
 
 const Artists = () => {
   const dispatch = useAppDispatch();
-  const artists = useAppSelector(selectArtists);
+  let artists = useAppSelector(selectArtists);
 
   useEffect(() => {
     dispatch(fetchArtists());
   }, [dispatch]);
+
 
   return (
     <Grid container direction="column" spacing={2}>

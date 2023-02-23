@@ -7,6 +7,8 @@ import { selectAlbums } from '../albums/albumsSlice';
 import { fetchAlbumsByArtist } from '../albums/albumsThunks';
 import { Grid } from '@mui/material';
 import AlbumsItem from '../albums/components/AlbumsItem';
+import noImage from '../../assets/images/noimage.jpg'
+import { apiUrl } from '../../constants';
 
 const ArtistPage = () => {
   const {id} = useParams() as {id: string};
@@ -20,14 +22,21 @@ const ArtistPage = () => {
 
   }, [dispatch, id]);
 
+  let artistPic = noImage;
+
+  if(artist?.image) {
+    artistPic = apiUrl + '/' + artist.image;
+  }
+
   return (
     <>
+      <img src={artistPic} alt={artist?.name} style={{float: 'right', width: '250px'}}/>
       <h3>{artist?.name}</h3>
       {artist?.info ? (
         <div><strong>Bio: </strong>{artist.info}</div>
       ): (<div><strong>Bio is unavailable</strong></div>)}
       <h4>Albums</h4>
-      <Grid container direction="column" spacing={2}>
+      <Grid container direction="row" spacing={2}>
         {albums.map(album => (
           <AlbumsItem
           key={album._id}
