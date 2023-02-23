@@ -6,19 +6,21 @@ import { selectOneAlbum } from './albumsSlice';
 import { fetchTracksByAlbum } from '../tracks/tracksThunks';
 import { selectTracks } from '../tracks/tracksSlice';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
+const _ = require('lodash');
 
 const AlbumPage = () => {
   const dispatch = useAppDispatch();
   const {id} = useParams() as {id: string};
   const album = useAppSelector(selectOneAlbum);
-  const tracks = useAppSelector(selectTracks);
+  let tracks = useAppSelector(selectTracks);
+  tracks = _.sortBy(tracks, ['tracknumber']);
 
   useEffect(() => {
     void dispatch(fetchOneAlbum(id));
     void dispatch(fetchTracksByAlbum(id));
   }, [dispatch, id]);
 
-  console.log(tracks)
+
 
   return (
     <>
@@ -27,7 +29,7 @@ const AlbumPage = () => {
       <p>Issued in {album?.year}</p>
       <h4>Tracklist</h4>
       {tracks.map(track => (
-        <div>{track.tracknumber} <PlayCircleFilledIcon/> {track.title}{track.duration}</div>
+        <div key={track._id}>{track.tracknumber} <PlayCircleFilledIcon/> {track.title}{track.duration}</div>
       ))}
     </>
   );
