@@ -10,14 +10,14 @@ import { Card, Grid, Typography } from '@mui/material';
 import noImage from '../../assets/images/noimage.jpg';
 import { apiUrl, frontUrl } from '../../constants';
 
-const _ = require('lodash');
+const lodash = require('lodash');
 
 const AlbumPage = () => {
   const dispatch = useAppDispatch();
   const {id} = useParams() as {id: string};
   const album = useAppSelector(selectOneAlbum);
   let tracks = useAppSelector(selectTracks);
-  tracks = _.sortBy(tracks, ['tracknumber']);
+  tracks = lodash.sortBy(tracks, ['tracknumber']);
 
   useEffect(() => {
     void dispatch(fetchOneAlbum(id));

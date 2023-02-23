@@ -31,7 +31,7 @@ const run = async () => {
         info: null
     });
 
-    const [thebeatlesalbum1, thebeatlesalbum2, acdcalbum1, acdcalbum2] = await Album.create({
+    const [thebeatlesalbum1, thebeatlesalbum2, thebeatlesalbum3,acdcalbum1, acdcalbum2] = await Album.create({
         title: 'Abbey Road',
         artist: thebeatles,
         year: 1969,
@@ -42,6 +42,11 @@ const run = async () => {
         year: 1970,
         image: "fixtures/letitbe.jpg"
     }, {
+        title: 'Help',
+        artist: thebeatles,
+        year: 1965,
+        image: "fixtures/help.jpg"
+        }, {
         title: 'Back in Black',
         artist: acdc,
         year: 1980,
@@ -153,6 +158,31 @@ const run = async () => {
         title: "Beating Around the Bush",
         album: acdcalbum2,
         duration: '2:50'
+    }, {
+        tracknumber: 1,
+        title: 'Help',
+        album: thebeatlesalbum3,
+        duration: '2:18'
+    }, {
+        tracknumber: 2,
+        title: 'The Night Before',
+        album: thebeatlesalbum3,
+        duration: '2:34'
+    }, {
+        tracknumber: 3,
+        title: "You've Got to Hide Your Love Away",
+        album: thebeatlesalbum3,
+        duration: '2:09'
+    }, {
+        tracknumber: 4,
+        title: 'I Need You',
+        album: thebeatlesalbum3,
+        duration: '2:34'
+    }, {
+        tracknumber: 7,
+        title: 'Ticket to Ride',
+        album: thebeatlesalbum3,
+        duration: '3:09'
     });
 
     const [user1, user2] = await User.create({
