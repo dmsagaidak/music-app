@@ -10,15 +10,12 @@ import AlbumsItem from '../albums/components/AlbumsItem';
 import noImage from '../../assets/images/noimage.jpg'
 import { apiUrl } from '../../constants';
 
-const lodash = require('lodash');
-
 const ArtistPage = () => {
   const {id} = useParams() as {id: string};
   const dispatch = useAppDispatch();
   const artist = useAppSelector(selectOneArtist);
   let albums = useAppSelector(selectAlbums);
 
-  albums = lodash.sortBy(albums, ['year']).reverse();
 
   useEffect(() => {
     void dispatch(fetchOneArtist(id));
