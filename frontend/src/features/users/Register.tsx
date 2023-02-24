@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import { RegisterMutation } from '../../types';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Avatar, Box, Button, Container, Grid, Link, TextField, Typography } from '@mui/material';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { selectRegisterError } from './usersSlice';
+import { register } from './usersThunks';
 
 const Register = () => {
   const dispatch = useAppDispatch();
+  const error = useAppSelector(selectRegisterError);
   const navigate = useNavigate();
+
   const [state, setState] = useState<RegisterMutation>({
     username: '',
     password: ''
@@ -21,8 +25,14 @@ const Register = () => {
     });
   };
 
-  const submitFormHandler = (event: React.FormEvent) => {
+  const submitFormHandler = async (event: React.FormEvent) => {
     event.preventDefault();
+    try{
+      await dispatch(register(state)).unwrap();
+      navigate('/');
+    }catch (e) {
+      console.log(e);
+    }
   };
 
   return (
