@@ -1,5 +1,5 @@
 import React from 'react';
-import {AppBar, Grid, styled, Toolbar, Typography} from '@mui/material';
+import { AppBar, Button, Grid, styled, Toolbar, Typography } from '@mui/material';
 import { Link as NavLink } from 'react-router-dom';
 
 const Link = styled(NavLink)({
@@ -18,6 +18,9 @@ const AppToolbar = () => {
           <Typography variant="h6" component="div">
             <Link to="/">Music App</Link>
           </Typography>
+          <Grid item>
+            <Button component={NavLink} to="/register" color="inherit">Register</Button>
+          </Grid>
         </Grid>
       </Toolbar>
     </AppBar>

@@ -20,3 +20,8 @@ export interface Track {
   album: Album;
   duration: string;
 }
+
+export interface RegisterMutation {
+  username: string;
+  password: string;
+}
