@@ -35,6 +35,14 @@ const Register = () => {
     }
   };
 
+  const getFieldError = (fieldName: string) => {
+    try{
+      return error?.errors[fieldName].message;
+    }catch{
+      return undefined;
+    }
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -61,6 +69,8 @@ const Register = () => {
                 autoComplete="new-username"
                 value={state.username}
                 onChange={inputChangeHandler}
+                error={Boolean(getFieldError('username'))}
+                helperText={getFieldError('username')}
               />
             </Grid>
             <Grid item xs={12}>
@@ -72,6 +82,8 @@ const Register = () => {
                 autoComplete="new-password"
                 value={state.password}
                 onChange={inputChangeHandler}
+                error={Boolean(getFieldError('password'))}
+                helperText={getFieldError('password')}
               />
             </Grid>
           </Grid>
