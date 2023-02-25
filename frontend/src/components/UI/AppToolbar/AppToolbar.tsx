@@ -20,6 +20,7 @@ const AppToolbar = () => {
           </Typography>
           <Grid item>
             <Button component={NavLink} to="/register" color="inherit">Register</Button>
+            <Button component={NavLink} to="/login" color="inherit">Login</Button>
           </Grid>
         </Grid>
       </Toolbar>
