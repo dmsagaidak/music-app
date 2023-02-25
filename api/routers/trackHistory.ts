@@ -22,7 +22,7 @@ trackHistoryRouter.post('/',  auth, async (req, res, next) => {
     let artistName = null
 
     if(track) {
-        artistName = track.album.artist.toString()
+        artistName = track.album.artist.toString();
     }
 
 

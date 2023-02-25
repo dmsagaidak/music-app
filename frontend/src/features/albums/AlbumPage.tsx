@@ -6,10 +6,12 @@ import { selectOneAlbum, selectOneAlbumFetching } from './albumsSlice';
 import { fetchTracksByAlbum } from '../tracks/tracksThunks';
 import { selectTracks, selectTracksFetching } from '../tracks/tracksSlice';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
-import { Card, Grid, Typography } from '@mui/material';
+import { Card, Grid, IconButton, Typography } from '@mui/material';
 import noImage from '../../assets/images/noimage.jpg';
 import { apiUrl, frontUrl } from '../../constants';
 import Progress from '../../components/UI/Progress/Progress';
+import { createTrackHistory } from '../trackHistory/trackHistoryThunks';
+import { selectUser } from '../users/usersSlice';
 
 const AlbumPage = () => {
   const dispatch = useAppDispatch();
@@ -18,6 +20,7 @@ const AlbumPage = () => {
   const tracks = useAppSelector(selectTracks);
   const albumLoading = useAppSelector(selectOneAlbumFetching);
   const tracksLoading = useAppSelector(selectTracksFetching);
+  const user = useAppSelector(selectUser);
 
   useEffect(() => {
     void dispatch(fetchOneAlbum(id));
@@ -28,6 +31,12 @@ const AlbumPage = () => {
 
   if(album?.image){
     albumImg = apiUrl + '/' + album.image;
+  }
+
+  const sendTrackHistory = async (trackId: string) => {
+    if(user && album){
+      await dispatch(createTrackHistory({user: user?._id, track: trackId, artist: album?.artist._id}))
+    }
   }
 
   return (
@@ -54,7 +63,10 @@ const AlbumPage = () => {
                 justifyContent="space-around"
                 alignItems="center">
               <Typography component="span" style={{paddingLeft: '9px', paddingRight: '9px', width: '15px'}}>{track.tracknumber}</Typography>
-                <PlayCircleFilledIcon width={"10px"} height={"10px"}/>
+                <IconButton
+                  type="button"
+                  onClick={() => sendTrackHistory(track._id)}
+                ><PlayCircleFilledIcon width={"10px"} height={"10px"}/></IconButton>
               <Typography component={"span"} width={"550px"}>
                 {track.title}
               </Typography>
