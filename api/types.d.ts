@@ -1,3 +1,5 @@
+import {ObjectId} from "mongoose";
+
 export interface ArtistMutation {
     name: string;
     image: string | null;
@@ -27,5 +29,16 @@ export interface IUser {
 export interface TrackHistoryMutation {
     user: string;
     track: string;
+    artist: string;
     datetime: string;
+}
+
+export interface ApiTrack {
+    tracknumber: number;
+    title: string;
+    album: {
+        _id: ObjectId,
+        artist: ObjectId,
+    };
+    duration: string;
 }
