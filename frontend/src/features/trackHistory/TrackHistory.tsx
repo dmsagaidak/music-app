@@ -2,24 +2,40 @@ import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { fetchTrackHistory } from './trackHistoryThunks';
 import { selectTrackHistory } from './trackHistorySlice';
-import { fetchOneArtist } from '../artists/artistsThunks';
 import { Card, Grid, Typography } from '@mui/material';
 import dayjs from 'dayjs';
+import { selectUser } from '../users/usersSlice';
+import { Navigate } from 'react-router-dom';
+import { frontUrl } from '../../constants';
 
 const TrackHistory = () => {
   const dispatch = useAppDispatch();
   const trackHistory = useAppSelector(selectTrackHistory);
+  const user = useAppSelector(selectUser);
 
   useEffect(() => {
     void dispatch(fetchTrackHistory());
   }, [dispatch]);
 
-  console.log(trackHistory);
+  if(!user){
+    return <Navigate to={'/login'}/>
+  }
+
   return (
     <Grid container direction="column" spacing={2}>
-      <Typography component={'h1'} variant={'h4'} sx={{m: 2}}>I listened to...</Typography>
+      {trackHistory.length ? (<Typography component={'h1'} variant={'h4'} sx={{m: 2}}>I listened to...</Typography>) :
+        (<>
+            <Typography component={'h1'} variant={'h4'} sx={{m: 2}}>
+              My track history is empty
+            </Typography>
+            <Typography component={'a'} href={frontUrl} sx={{ml: 2}} style={{textDecoration: 'none'}}>It's time to listen to some music</Typography>
+         </>
+        )}
+
       {trackHistory.map(item => (
-        <Card sx={{m: 1}}>
+        <Card
+          key={item._id}
+          sx={{m: 1}}>
           <Grid container
                 direction="row"
                 justifyContent="space-around"
