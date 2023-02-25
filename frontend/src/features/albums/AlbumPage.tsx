@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { fetchOneAlbum } from './albumsThunks';
 import { selectOneAlbum, selectOneAlbumFetching } from './albumsSlice';
 import { fetchTracksByAlbum } from '../tracks/tracksThunks';
@@ -37,6 +37,10 @@ const AlbumPage = () => {
     if(user && album){
       await dispatch(createTrackHistory({user: user?._id, track: trackId, artist: album?.artist._id}))
     }
+  };
+
+  if(!user){
+    return <Navigate to={'/login'}/>
   }
 
   return (

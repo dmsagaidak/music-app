@@ -54,7 +54,7 @@ trackHistoryRouter.get('/', auth, async (req, res, next) => {
     const userId = user._id.toString();
 
     try{
-        const trackHistory = await TrackHistory.find({user: userId});
+        const trackHistory = await TrackHistory.find({user: userId}).populate({path: 'track'}).populate({path: 'artist'}).sort({datetime: -1});
         return res.send(trackHistory);
     }catch (e) {
         if(e instanceof mongoose.Error.ValidationError) {
