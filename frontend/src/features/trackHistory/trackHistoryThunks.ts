@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { TrackHistory, TrackHistoryMutation } from '../../types';
+import { TrackHistory } from '../../types';
 import axiosApi from '../../axiosApi';
 import { RootState } from '../../app/store';
 

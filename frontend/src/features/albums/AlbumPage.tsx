@@ -12,6 +12,7 @@ import { apiUrl, frontUrl } from '../../constants';
 import Progress from '../../components/UI/Progress/Progress';
 import { createTrackHistory } from '../trackHistory/trackHistoryThunks';
 import { selectUser } from '../users/usersSlice';
+import { selectTrackHistoryCreateLoading } from '../trackHistory/trackHistorySlice';
 
 const AlbumPage = () => {
   const dispatch = useAppDispatch();
@@ -21,6 +22,7 @@ const AlbumPage = () => {
   const albumLoading = useAppSelector(selectOneAlbumFetching);
   const tracksLoading = useAppSelector(selectTracksFetching);
   const user = useAppSelector(selectUser);
+  const trackHistoryCreating = useAppSelector(selectTrackHistoryCreateLoading);
 
   useEffect(() => {
     void dispatch(fetchOneAlbum(id));
@@ -69,6 +71,7 @@ const AlbumPage = () => {
               <Typography component="span" style={{paddingLeft: '9px', paddingRight: '9px', width: '15px'}}>{track.tracknumber}</Typography>
                 <IconButton
                   type="button"
+                  disabled={trackHistoryCreating}
                   onClick={() => sendTrackHistory(track._id)}
                 ><PlayCircleFilledIcon width={"10px"} height={"10px"}/></IconButton>
               <Typography component={"span"} width={"550px"}>

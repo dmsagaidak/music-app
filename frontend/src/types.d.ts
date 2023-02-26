@@ -65,9 +65,3 @@ export interface TrackHistory {
   artist: Artist;
   datetime: string;
 }
-
-export interface TrackHistoryMutation {
-  user: string;
-  track: string;
-  artist: string;
-}

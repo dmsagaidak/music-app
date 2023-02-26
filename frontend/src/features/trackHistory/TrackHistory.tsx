@@ -1,17 +1,19 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { fetchTrackHistory } from './trackHistoryThunks';
-import { selectTrackHistory } from './trackHistorySlice';
+import { selectTrackHistory, selectTrackHistoryFetchLoading } from './trackHistorySlice';
 import { Card, Grid, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { selectUser } from '../users/usersSlice';
 import { Navigate } from 'react-router-dom';
 import { frontUrl } from '../../constants';
+import Progress from '../../components/UI/Progress/Progress';
 
 const TrackHistory = () => {
   const dispatch = useAppDispatch();
   const trackHistory = useAppSelector(selectTrackHistory);
   const user = useAppSelector(selectUser);
+  const trackHistoryFetching = useAppSelector(selectTrackHistoryFetchLoading);
 
   useEffect(() => {
     void dispatch(fetchTrackHistory());
@@ -32,7 +34,7 @@ const TrackHistory = () => {
          </>
         )}
 
-      {trackHistory.map(item => (
+      {trackHistoryFetching ? <Progress/> : trackHistory.map(item => (
         <Card
           key={item._id}
           sx={{m: 1}}>
