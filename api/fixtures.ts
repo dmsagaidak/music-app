@@ -1,10 +1,11 @@
 import crypto from 'crypto';
-import mongoose from 'mongoose';
+import mongoose, {now} from 'mongoose';
 import config from './config';
 import Artist from "./models/Artist";
 import Album from "./models/Album";
 import Track from "./models/Track";
 import User from "./models/User";
+import TrackHistory from "./models/TrackHistory";
 
 const run = async () => {
     mongoose.set('strictQuery', false);
@@ -62,127 +63,152 @@ const run = async () => {
         tracknumber: 1,
         title: 'Hells Bells',
         album: acdcalbum1,
-        duration: '5:19'
+        duration: '5:19',
+        video: 'https://www.youtube.com/watch?v=etAIpkdhU9Q'
     }, {
         tracknumber: 2,
         title: 'Shoot to Thrill',
         album: acdcalbum1,
-        duration: '5:31'
+        duration: '5:31',
+        video: null,
     }, {
         tracknumber: 3,
         title: "What Do You Do for Money Honey",
         album: acdcalbum1,
-        duration: '3:37'
+        duration: '3:37',
+        video: null,
     }, {
         tracknumber: 4,
         title: 'Given the Dog a Bone',
         album: acdcalbum1,
-        duration: '3:27'
+        duration: '3:27',
+        video: null,
     }, {
         tracknumber: 5,
         title: "Let Me Put My Love Into You",
         album: acdcalbum1,
-        duration: '2:50'
+        duration: '2:50',
+        video: null,
     }, {
         tracknumber: 1,
         title: 'Two of Us',
         album: thebeatlesalbum2,
-        duration: '3:30'
+        duration: '3:30',
+        video: 'https://www.youtube.com/watch?v=Ql1cL_y0xes',
     }, {
         tracknumber: 2,
         title: 'Dig a Pony',
         album: thebeatlesalbum2,
-        duration: '4:13'
+        duration: '4:13',
+        video: null,
     }, {
         tracknumber: 3,
         title: 'Across the Universe',
         album: thebeatlesalbum2,
-        duration: '3:43'
+        duration: '3:43',
+        video: null,
     }, {
         tracknumber: 4,
         title: 'I Me Mine',
         album: thebeatlesalbum2,
-        duration: '2:25'
+        duration: '2:25',
+        video: null,
     }, {
         tracknumber: 5,
         title: 'Dig It',
         album: thebeatlesalbum2,
-        duration: '4:10'
+        duration: '4:10',
+        video: null,
     }, {
         tracknumber: 1,
         title: 'Come Together',
         album: thebeatlesalbum1,
-        duration: '4:16'
+        duration: '4:16',
+        video: 'https://www.youtube.com/watch?v=45cYwDMibGo',
     }, {
         tracknumber: 2,
         title: 'Something',
         album: thebeatlesalbum1,
-        duration: '2:57'
+        duration: '2:57',
+        video: null,
     }, {
         tracknumber: 3,
         title: "Maxwell's Silver Hammer",
         album: thebeatlesalbum1,
-        duration: '3:27'
+        duration: '3:27',
+        video: null,
     }, {
         tracknumber: 4,
         title: "Oh! Darling",
         album: thebeatlesalbum1,
-        duration: '3:27'
+        duration: '3:27',
+        video: null,
     }, {
         tracknumber: 5,
         title: "Octopus's Garden",
         album: thebeatlesalbum1,
-        duration: '2:50'
+        duration: '2:50',
+        video: null,
     }, {
         tracknumber: 1,
         title: 'Highway to Hell',
         album: acdcalbum2,
-        duration: '3:28'
+        duration: '3:28',
+        video: null,
     }, {
         tracknumber: 2,
         title: 'Girls Got Rhythm',
         album: acdcalbum2,
-        duration: '3:34'
+        duration: '3:34',
+        video: null,
     }, {
         tracknumber: 3,
         title: 'Walk All Over You',
         album: acdcalbum2,
-        duration: '4:27'
+        duration: '4:27',
+        video: null,
     }, {
         tracknumber: 4,
         title: 'Touch Too Much',
         album: acdcalbum2,
-        duration: '4:30'
+        duration: '4:30',
+        video: null,
     }, {
         tracknumber: 5,
         title: "Beating Around the Bush",
         album: acdcalbum2,
-        duration: '2:50'
+        duration: '2:50',
+        video: null,
     }, {
         tracknumber: 1,
         title: 'Help',
         album: thebeatlesalbum3,
-        duration: '2:18'
+        duration: '2:18',
+        video: null,
     }, {
         tracknumber: 2,
         title: 'The Night Before',
         album: thebeatlesalbum3,
-        duration: '2:34'
+        duration: '2:34',
+        video: null,
     }, {
         tracknumber: 3,
         title: "You've Got to Hide Your Love Away",
         album: thebeatlesalbum3,
-        duration: '2:09'
+        duration: '2:09',
+        video: null,
     }, {
         tracknumber: 4,
         title: 'I Need You',
         album: thebeatlesalbum3,
-        duration: '2:34'
+        duration: '2:34',
+        video: null,
     }, {
         tracknumber: 7,
         title: 'Ticket to Ride',
         album: thebeatlesalbum3,
-        duration: '3:09'
+        duration: '3:09',
+        video: null,
     });
 
     const [user1, user2] = await User.create({

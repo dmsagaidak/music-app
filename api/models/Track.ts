@@ -26,7 +26,8 @@ const TrackSchema = new Schema({
     duration: {
         type: String,
         required: true,
-    }
+    },
+    video: String,
 });
 
 const Track = mongoose.model('Track', TrackSchema);

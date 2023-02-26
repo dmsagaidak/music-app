@@ -19,6 +19,7 @@ export interface Track {
   title: string;
   album: Album;
   duration: string;
+  video: string | null;
 }
 
 export interface RegisterMutation {

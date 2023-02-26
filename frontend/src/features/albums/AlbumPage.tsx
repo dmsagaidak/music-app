@@ -5,14 +5,12 @@ import { fetchOneAlbum } from './albumsThunks';
 import { selectOneAlbum, selectOneAlbumFetching } from './albumsSlice';
 import { fetchTracksByAlbum } from '../tracks/tracksThunks';
 import { selectTracks, selectTracksFetching } from '../tracks/tracksSlice';
-import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
-import { Card, Grid, IconButton, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import noImage from '../../assets/images/noimage.jpg';
 import { apiUrl, frontUrl } from '../../constants';
 import Progress from '../../components/UI/Progress/Progress';
-import { createTrackHistory } from '../trackHistory/trackHistoryThunks';
 import { selectUser } from '../users/usersSlice';
-import { selectTrackHistoryCreateLoading } from '../trackHistory/trackHistorySlice';
+import TrackItem from '../tracks/components/TrackItem';
 
 const AlbumPage = () => {
   const dispatch = useAppDispatch();
@@ -22,7 +20,7 @@ const AlbumPage = () => {
   const albumLoading = useAppSelector(selectOneAlbumFetching);
   const tracksLoading = useAppSelector(selectTracksFetching);
   const user = useAppSelector(selectUser);
-  const trackHistoryCreating = useAppSelector(selectTrackHistoryCreateLoading);
+
 
   useEffect(() => {
     void dispatch(fetchOneAlbum(id));
@@ -35,11 +33,6 @@ const AlbumPage = () => {
     albumImg = apiUrl + '/' + album.image;
   }
 
-  const sendTrackHistory = async (trackId: string) => {
-    if(user && album){
-      await dispatch(createTrackHistory({track: trackId}))
-    }
-  };
 
   if(!user){
     return <Navigate to={'/login'}/>
@@ -63,25 +56,10 @@ const AlbumPage = () => {
       }
 
       {tracksLoading ? <Progress/> : tracks.map(track => (
-        <Card sx={{mb: 1}} key={track._id}>
-          <Grid container
-                direction="row"
-                justifyContent="space-around"
-                alignItems="center">
-              <Typography component="span" style={{paddingLeft: '9px', paddingRight: '9px', width: '15px'}}>{track.tracknumber}</Typography>
-                <IconButton
-                  type="button"
-                  disabled={trackHistoryCreating}
-                  onClick={() => sendTrackHistory(track._id)}
-                ><PlayCircleFilledIcon width={"10px"} height={"10px"}/></IconButton>
-              <Typography component={"span"} width={"550px"}>
-                {track.title}
-              </Typography>
-              <Typography component={"span"}>
-                {track.duration}
-              </Typography>
-          </Grid>
-        </Card>
+        <TrackItem
+        key={track._id}
+        track={track}
+        />
       ))}
     </>
   );
