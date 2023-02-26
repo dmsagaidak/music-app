@@ -3,14 +3,14 @@ import { TrackHistory, TrackHistoryMutation } from '../../types';
 import axiosApi from '../../axiosApi';
 import { RootState } from '../../app/store';
 
-export const createTrackHistory = createAsyncThunk<void, TrackHistoryMutation, {state: RootState}>(
+export const createTrackHistory = createAsyncThunk<void, { track: string }, {state: RootState}>(
   'trackHistory/create',
-  async (trackHistoryMutation, {getState}) => {
+  async (track, {getState}) => {
     const user = getState().users.user;
 
     if(user){
-      await axiosApi.post<TrackHistoryMutation>
-      ('/track_history', trackHistoryMutation, {headers: {'Authorization': user.token}});
+      await axiosApi.post
+      ('/track_history', track, {headers: {'Authorization': user.token}});
     }
   }
 );

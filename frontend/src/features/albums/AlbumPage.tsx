@@ -35,7 +35,7 @@ const AlbumPage = () => {
 
   const sendTrackHistory = async (trackId: string) => {
     if(user && album){
-      await dispatch(createTrackHistory({user: user?._id, track: trackId, artist: album?.artist._id}))
+      await dispatch(createTrackHistory({track: trackId}))
     }
   };
 
