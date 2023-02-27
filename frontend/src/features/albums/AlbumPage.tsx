@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { Navigate, useParams } from 'react-router-dom';
+import {  useParams } from 'react-router-dom';
 import { fetchOneAlbum } from './albumsThunks';
 import { selectOneAlbum, selectOneAlbumFetching } from './albumsSlice';
 import { fetchTracksByAlbum } from '../tracks/tracksThunks';
@@ -9,7 +9,6 @@ import { Typography } from '@mui/material';
 import noImage from '../../assets/images/noimage.jpg';
 import { apiUrl, frontUrl } from '../../constants';
 import Progress from '../../components/UI/Progress/Progress';
-import { selectUser } from '../users/usersSlice';
 import TrackItem from '../tracks/components/TrackItem';
 
 const AlbumPage = () => {
@@ -19,7 +18,6 @@ const AlbumPage = () => {
   const tracks = useAppSelector(selectTracks);
   const albumLoading = useAppSelector(selectOneAlbumFetching);
   const tracksLoading = useAppSelector(selectTracksFetching);
-  const user = useAppSelector(selectUser);
 
 
   useEffect(() => {
@@ -31,11 +29,6 @@ const AlbumPage = () => {
 
   if(album?.image){
     albumImg = apiUrl + '/' + album.image;
-  }
-
-
-  if(!user){
-    return <Navigate to={'/login'}/>
   }
 
   return (
