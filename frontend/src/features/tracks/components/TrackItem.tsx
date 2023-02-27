@@ -21,8 +21,8 @@ const TrackItem: React.FC<Props> = ({track}) => {
   const [open, setOpen] = useState(false);
 
   const sendTrackHistory = async (trackId: string) => {
-    if(user && track.album){
-      await dispatch(createTrackHistory({track: trackId}))
+    if(user){
+      await dispatch(createTrackHistory({track: trackId}));
     }
   };
 
