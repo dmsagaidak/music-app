@@ -9,7 +9,6 @@ import { Typography } from '@mui/material';
 import noImage from '../../assets/images/noimage.jpg';
 import { apiUrl, frontUrl } from '../../constants';
 import Progress from '../../components/UI/Progress/Progress';
-import { selectUser } from '../users/usersSlice';
 import TrackItem from '../tracks/components/TrackItem';
 
 const AlbumPage = () => {
@@ -19,7 +18,6 @@ const AlbumPage = () => {
   const tracks = useAppSelector(selectTracks);
   const albumLoading = useAppSelector(selectOneAlbumFetching);
   const tracksLoading = useAppSelector(selectTracksFetching);
-  const user = useAppSelector(selectUser);
 
 
   useEffect(() => {
@@ -31,11 +29,6 @@ const AlbumPage = () => {
 
   if(album?.image){
     albumImg = apiUrl + '/' + album.image;
-  }
-
-
-  if(!user){
-    return <Navigate to={'/login'}/>
   }
 
   return (

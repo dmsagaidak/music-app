@@ -40,19 +40,21 @@ const TrackItem: React.FC<Props> = ({track}) => {
               justifyContent="space-around"
               alignItems="center">
           <Typography component="span" style={{paddingLeft: '9px', paddingRight: '9px', width: '15px'}}>{track.tracknumber}</Typography>
-          <IconButton
-            type="button"
-            disabled={trackHistoryCreating}
-            onClick={() => sendTrackHistory(track._id)}
-          ><PlayCircleFilledIcon width={"10px"} height={"10px"}/>
-          </IconButton>
-          {track.video ? (<IconButton
-            type="button"
-            onClick={() => playVideo(track._id)}
-          >
-            <YouTubeIcon/>
-          </IconButton>) : (<Typography component={'div'} width={'40px'}></Typography>)
-          }
+          {user? (<Typography component={'div'} width={'100px'}>
+            <IconButton
+              type="button"
+              disabled={trackHistoryCreating}
+              onClick={() => sendTrackHistory(track._id)}
+            ><PlayCircleFilledIcon width={"10px"} height={"10px"}/>
+            </IconButton>
+            {track.video ? (<IconButton
+              type="button"
+              onClick={() => playVideo(track._id)}
+            >
+              <YouTubeIcon/>
+            </IconButton>) : (<Typography component={'div'} width={'40px'}></Typography>)
+            }
+          </Typography>) : (<Typography component={'div'} width={'100px'}></Typography>)}
           <Typography component={"span"} width={"550px"}>
             {track.title}
           </Typography>
