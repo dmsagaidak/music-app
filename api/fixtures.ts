@@ -1,11 +1,10 @@
 import crypto from 'crypto';
-import mongoose, {now} from 'mongoose';
+import mongoose from 'mongoose';
 import config from './config';
 import Artist from "./models/Artist";
 import Album from "./models/Album";
 import Track from "./models/Track";
 import User from "./models/User";
-import TrackHistory from "./models/TrackHistory";
 
 const run = async () => {
     mongoose.set('strictQuery', false);
@@ -154,7 +153,7 @@ const run = async () => {
         title: 'Highway to Hell',
         album: acdcalbum2,
         duration: '3:28',
-        video: null,
+        video: 'https://www.youtube.com/watch?v=l482T0yNkeo',
     }, {
         tracknumber: 2,
         title: 'Girls Got Rhythm',
@@ -181,10 +180,10 @@ const run = async () => {
         video: null,
     }, {
         tracknumber: 1,
-        title: 'Help',
+        title: 'Help!',
         album: thebeatlesalbum3,
         duration: '2:18',
-        video: null,
+        video: 'https://www.youtube.com/watch?v=2Q_ZzBGPdqE',
     }, {
         tracknumber: 2,
         title: 'The Night Before',

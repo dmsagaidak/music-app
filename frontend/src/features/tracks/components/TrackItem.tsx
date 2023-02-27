@@ -27,12 +27,6 @@ const TrackItem: React.FC<Props> = ({track}) => {
   };
 
 
-  let video = 'https://youtu.be/Am18ZxKgi_g';
-
-  if (track.video !== null) {
-    video = track.video;
-  }
-
   const playVideo = async (trackId: string) => {
     await sendTrackHistory(trackId);
     setOpen(true);
@@ -52,12 +46,13 @@ const TrackItem: React.FC<Props> = ({track}) => {
             onClick={() => sendTrackHistory(track._id)}
           ><PlayCircleFilledIcon width={"10px"} height={"10px"}/>
           </IconButton>
-          <IconButton
-          type="button"
-          onClick={() => playVideo(track._id)}
+          {track.video ? (<IconButton
+            type="button"
+            onClick={() => playVideo(track._id)}
           >
             <YouTubeIcon/>
-          </IconButton>
+          </IconButton>) : (<Typography component={'div'} width={'40px'}></Typography>)
+          }
           <Typography component={"span"} width={"550px"}>
             {track.title}
           </Typography>
@@ -71,7 +66,7 @@ const TrackItem: React.FC<Props> = ({track}) => {
         onClose={() => setOpen(false)}
       >
         <Box position={'absolute'} top={'30%'} left={'30%'}>
-          <ReactPlayer url={video} />
+          <ReactPlayer  url={track.video!} />
         </Box>
       </Modal>
     </>
