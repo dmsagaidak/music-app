@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Track } from '../../types';
+import { Track, TrackMutation } from '../../types';
 import axiosApi from '../../axiosApi';
 
 export const fetchTracksByAlbum = createAsyncThunk<Track[], string>(
@@ -7,5 +7,12 @@ export const fetchTracksByAlbum = createAsyncThunk<Track[], string>(
   async (id) => {
     const response = await axiosApi.get('/tracks?album=' + id);
     return response.data;
+  }
+);
+
+export const createTrack = createAsyncThunk<void, TrackMutation>(
+  'tracks/create',
+  async (trackMutation) => {
+    await axiosApi.post('/tracks', trackMutation);
   }
 )

@@ -28,25 +28,23 @@ export interface Track {
 
 export interface ArtistMutation {
   name: string;
-  image: string | null;
+  image: File | null;
   info: string;
-  isPublished: boolean;
 }
 
 export interface AlbumMutation {
   title: string;
   artist: string;
-  year: number;
-  image: string | null;
-  isPublished: boolean;
+  year: string;
+  image: File | null;
 }
 
 export interface TrackMutation {
-  tracknumber: number;
+  tracknumber: string;
   title: string;
   album: string;
   duration: string;
-  isPublished: boolean;
+  video: string;
 }
 
 export interface RegisterMutation {

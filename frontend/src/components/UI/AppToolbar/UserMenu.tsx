@@ -46,6 +46,13 @@ const UserMenu: React.FC<Props> = ({user}) => {
           onClick={() => navigate('/track_history')}
         >My track history</MenuItem>
         <MenuItem
+          onClick={() => navigate('/artists/new')}
+        >Add new artist</MenuItem>
+        <MenuItem
+        onClick={() => navigate('/albums/new')}>Add new album</MenuItem>
+        <MenuItem
+          onClick={() => navigate('/tracks/new')}>Add new track</MenuItem>
+        <MenuItem
           onClick={handleLogout}
         >Logout</MenuItem>
       </Menu>

@@ -8,6 +8,9 @@ import AlbumPage from './features/albums/AlbumPage';
 import Register from './features/users/Register';
 import Login from './features/users/Login';
 import TrackHistory from './features/trackHistory/TrackHistory';
+import NewAlbum from './features/albums/NewAlbum';
+import NewArtist from './features/artists/NewArtist';
+import NewTrack from './features/tracks/NewTrack';
 
 function App() {
 
@@ -26,6 +29,9 @@ function App() {
             <Route path={'/register'} element={<Register/>}/>
             <Route path={'/login'} element={<Login/>}/>
             <Route path={'/track_history'} element={<TrackHistory/>}/>
+            <Route path={'/albums/new'} element={<NewAlbum/>}/>
+            <Route path={'/artists/new'} element={<NewArtist/>}/>
+            <Route path={'/tracks/new'} element={<NewTrack/>}/>
             <Route path="*" element={<h1>Not found!</h1>}/>
           </Routes>
         </Container>
