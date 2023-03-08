@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { User } from '../../../types';
 import { Button, Menu, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../../app/hooks';
+import { logout } from '../../../features/users/usersThunks';
 
 interface Props {
   user: User;
@@ -9,6 +11,7 @@ interface Props {
 
 const UserMenu: React.FC<Props> = ({user}) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -16,7 +19,12 @@ const UserMenu: React.FC<Props> = ({user}) => {
 
   const handleClose = () => {
     setAnchorEl(null);
-  }
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
 
   return (
     <>
@@ -37,7 +45,9 @@ const UserMenu: React.FC<Props> = ({user}) => {
         <MenuItem
           onClick={() => navigate('/track_history')}
         >My track history</MenuItem>
-        <MenuItem>Logout</MenuItem>
+        <MenuItem
+          onClick={handleLogout}
+        >Logout</MenuItem>
       </Menu>
     </>
   );

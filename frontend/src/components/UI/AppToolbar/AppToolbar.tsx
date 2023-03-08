@@ -2,9 +2,15 @@ import React from 'react';
 import { AppBar, Grid, styled, Toolbar, Typography } from '@mui/material';
 import { Link as NavLink } from 'react-router-dom';
 import { useAppSelector } from '../../../app/hooks';
-import { selectUser } from '../../../features/users/usersSlice';
+import {
+  selectLoginLoading,
+  selectLogoutLoading,
+  selectRegisterLoading,
+  selectUser
+} from '../../../features/users/usersSlice';
 import UserMenu from './UserMenu';
 import AnonymousMenu from './AnonymousMenu';
+import CircularProgressElement from '../CircularProgressElement/CircularProgressElement';
 
 const Link = styled(NavLink)({
   color: 'inherit',
@@ -16,6 +22,9 @@ const Link = styled(NavLink)({
 
 const AppToolbar = () => {
   const user = useAppSelector(selectUser);
+  const loginLoading = useAppSelector(selectLoginLoading);
+  const registerLoading = useAppSelector(selectRegisterLoading);
+  const logoutLoading = useAppSelector(selectLogoutLoading);
 
   return (
     <AppBar position="sticky" sx={{mb: 2, background: '#000'}}>
@@ -25,7 +34,7 @@ const AppToolbar = () => {
             <Link to="/">Music App</Link>
           </Typography>
           <Grid item>
-            {user ? <UserMenu user={user}/> : <AnonymousMenu/>}
+            {loginLoading || registerLoading || logoutLoading ? <CircularProgressElement/> : (user ? <UserMenu user={user}/> : <AnonymousMenu/>)}
           </Grid>
         </Grid>
       </Toolbar>
