@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose, {now} from "mongoose";
-import {ApiTrack, TrackHistoryMutation} from "../types";
+import {ApiTrack} from "../types";
 import TrackHistory from "../models/TrackHistory";
 import auth, {RequestWithUser} from "../middleware/auth";
 import Track from "../models/Track";
@@ -9,6 +9,7 @@ import artist from "../models/Artist";
 const trackHistoryRouter = express.Router();
 
 trackHistoryRouter.post('/',  auth, async (req, res, next) => {
+    try{
     const user = (req as RequestWithUser).user;
 
     if (!user) {
@@ -26,17 +27,13 @@ trackHistoryRouter.post('/',  auth, async (req, res, next) => {
     }
 
 
-    const trackHistoryData: TrackHistoryMutation = {
+    const trackHistory = await TrackHistory.create({
         user: userId,
         track: req.body.track,
         artist: artistName!,
         datetime: now().toISOString(),
-    }
+    });
 
-    const trackHistory = new TrackHistory(trackHistoryData);
-
-    try{
-        await trackHistory.save();
         return res.send(trackHistory);
     }catch (e) {
         if(e instanceof  mongoose.Error.ValidationError) {

@@ -28,6 +28,11 @@ const TrackSchema = new Schema({
         required: true,
     },
     video: String,
+    isPublished: {
+        type: Boolean,
+        required: true,
+        default: false,
+    }
 });
 
 const Track = mongoose.model('Track', TrackSchema);

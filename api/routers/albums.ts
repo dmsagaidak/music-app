@@ -2,7 +2,8 @@ import express from "express";
 import Album from "../models/Album";
 import mongoose from "mongoose";
 import {imagesUpload} from "../multer";
-import {AlbumMutation} from "../types";
+import auth, {RequestWithUser} from "../middleware/auth";
+
 
 
 const albumsRouter = express.Router();
@@ -35,18 +36,23 @@ albumsRouter.get('/:id', async(req, res, next) => {
     }
 });
 
-albumsRouter.post('/', imagesUpload.single('image'), async (req, res, next) => {
-    const albumData: AlbumMutation = {
+albumsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, next) => {
+    try{
+        const user = (req as RequestWithUser).user;
+
+        if (!user) {
+            return res.status(401).send({error: 'Wrong token!'});
+        }
+
+
+        const album = await Album.create({
         title: req.body.title,
         artist: req.body.artist,
         year: req.body.year,
         image: req.file ? req.file.filename : null,
-    };
+        isPublished: false,
+    });
 
-    const album = new Album(albumData);
-
-    try{
-        await album.save();
         return res.send(album);
     }catch (e) {
         if(e instanceof  mongoose.Error.ValidationError) {

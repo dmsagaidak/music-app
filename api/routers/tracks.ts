@@ -1,8 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
 import Track from "../models/Track";
-import {TrackMutation} from "../types";
 import Album from "../models/Album";
+import auth, {RequestWithUser} from "../middleware/auth";
 
 const tracksRouter = express.Router();
 
@@ -42,18 +42,23 @@ tracksRouter.get('/:id', async(req, res, next) => {
     }
 })
 
-tracksRouter.post('/', async (req, res, next) => {
-    const trackData: TrackMutation = {
+tracksRouter.post('/', auth, async (req, res, next) => {
+    try{
+        const user = (req as RequestWithUser).user;
+
+        if (!user) {
+            return res.status(401).send({error: 'Wrong token!'});
+        }
+
+
+        const track = await Track.create({
         tracknumber: req.body.tracknumber,
         title: req.body.title,
         album: req.body.album,
         duration: req.body.duration,
-    };
+        isPublished: false,
+    });
 
-    const track = new Track(trackData);
-
-    try{
-        await track.save();
         return res.send(track);
     }catch (e) {
         if(e instanceof  mongoose.Error.ValidationError) {

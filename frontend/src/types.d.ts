@@ -3,6 +3,7 @@ export interface Artist {
   name: string;
   image: string | null;
   info: string;
+  isPublished: boolean;
 }
 
 export interface Album {
@@ -11,6 +12,7 @@ export interface Album {
   artist: Artist;
   year: number;
   image: string | null;
+  isPublished: boolean;
 }
 
 export interface Track {
@@ -20,6 +22,31 @@ export interface Track {
   album: Album;
   duration: string;
   video: string | null;
+  isPublished: boolean;
+}
+
+
+export interface ArtistMutation {
+  name: string;
+  image: string | null;
+  info: string;
+  isPublished: boolean;
+}
+
+export interface AlbumMutation {
+  title: string;
+  artist: string;
+  year: number;
+  image: string | null;
+  isPublished: boolean;
+}
+
+export interface TrackMutation {
+  tracknumber: number;
+  title: string;
+  album: string;
+  duration: string;
+  isPublished: boolean;
 }
 
 export interface RegisterMutation {
@@ -31,6 +58,7 @@ export interface User {
   _id: string;
   username: string;
   token: string;
+  role: string;
 }
 
 export interface RegisterResponse {
