@@ -56,4 +56,6 @@ artistsRouter.post('/', auth, imagesUpload.single('image'), async(req, res, next
     }
 });
 
+
+
 export default artistsRouter;

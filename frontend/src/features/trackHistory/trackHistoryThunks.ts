@@ -1,28 +1,19 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { TrackHistory } from '../../types';
 import axiosApi from '../../axiosApi';
-import { RootState } from '../../app/store';
 
-export const createTrackHistory = createAsyncThunk<void, { track: string }, {state: RootState}>(
+export const createTrackHistory = createAsyncThunk<void, { track: string }>(
   'trackHistory/create',
-  async (track, {getState}) => {
-    const user = getState().users.user;
-
-    if(user){
+  async (track) => {
       await axiosApi.post
-      ('/track_history', track, {headers: {'Authorization': user.token}});
-    }
+      ('/track_history', track);
   }
 );
 
-export const fetchTrackHistory = createAsyncThunk<TrackHistory[], void, {state: RootState}>(
+export const fetchTrackHistory = createAsyncThunk<TrackHistory[]>(
   'trackHistory/fetchAll',
-  async(_, {getState}) => {
-    const user = getState().users.user;
-
-    if(user) {
-      const response = await axiosApi.get('/track_history', {headers: {'Authorization': user.token}});
+  async() => {
+      const response = await axiosApi.get('/track_history');
       return response.data;
-    }
   }
-)
+);
