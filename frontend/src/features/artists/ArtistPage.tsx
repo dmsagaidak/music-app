@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectOneArtist, selectOneArtistFetching } from './artistsSlice';
 import { fetchOneArtist } from './artistsThunks';
 import { selectAlbums, selectAlbumsFetching } from '../albums/albumsSlice';
-import { fetchAlbumsByArtist } from '../albums/albumsThunks';
+import { fetchAlbumsByArtist, removeAlbum } from '../albums/albumsThunks';
 import { Grid, Typography } from '@mui/material';
 import AlbumsItem from '../albums/components/AlbumsItem';
 import noImage from '../../assets/images/noimage.jpg'
@@ -25,6 +25,13 @@ const ArtistPage = () => {
     void dispatch(fetchAlbumsByArtist(id));
 
   }, [dispatch, id]);
+
+  const deleteAlbum = async (albumId: string) => {
+    if(window.confirm('Do you really want to delete this album?')){
+      await dispatch(removeAlbum(albumId));
+      await dispatch(fetchAlbumsByArtist(id));
+    }
+  }
 
   let artistPic = noImage;
 
@@ -48,11 +55,8 @@ const ArtistPage = () => {
         {albumsLoading ? <Progress/> : albums.map(album => (
           <AlbumsItem
           key={album._id}
-          id={album._id}
-          title={album.title}
-          artist={album.artist}
-          year={album.year}
-          image={album.image}
+          album={album}
+          onDelete={() => deleteAlbum(album._id)}
           />
         ))}
       </Grid>

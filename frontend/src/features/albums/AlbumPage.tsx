@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {  useParams } from 'react-router-dom';
 import { fetchOneAlbum } from './albumsThunks';
 import { selectOneAlbum, selectOneAlbumFetching } from './albumsSlice';
-import { fetchTracksByAlbum } from '../tracks/tracksThunks';
+import { fetchTracksByAlbum, removeTrack } from '../tracks/tracksThunks';
 import { selectTracks, selectTracksFetching } from '../tracks/tracksSlice';
 import { Typography } from '@mui/material';
 import noImage from '../../assets/images/noimage.jpg';
@@ -24,6 +24,13 @@ const AlbumPage = () => {
     void dispatch(fetchOneAlbum(id));
     void dispatch(fetchTracksByAlbum(id));
   }, [dispatch, id]);
+
+  const deleteTrack = async (trackId: string) => {
+    if(window.confirm('Do you really want to remove this track?')) {
+      await dispatch(removeTrack(trackId));
+      await dispatch(fetchTracksByAlbum(id))
+    }
+  }
 
   let albumImg = noImage;
 
@@ -52,6 +59,7 @@ const AlbumPage = () => {
         <TrackItem
         key={track._id}
         track={track}
+        onDelete={() => deleteTrack(track._id)}
         />
       ))}
     </>

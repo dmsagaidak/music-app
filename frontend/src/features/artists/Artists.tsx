@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectArtists, selectArtistsFetching } from './artistsSlice';
-import { fetchArtists } from './artistsThunks';
+import { fetchArtists, removeArtist } from './artistsThunks';
 import { Grid } from '@mui/material';
 import ArtistsItem from './components/ArtistsItem';
 import Progress from '../../components/UI/Progress/Progress';
@@ -15,6 +15,13 @@ const Artists = () => {
     dispatch(fetchArtists());
   }, [dispatch]);
 
+  const deleteArtist = async (id: string) => {
+    if(window.confirm('Do you really want to delete this artist?')){
+      await dispatch(removeArtist(id));
+      await dispatch(fetchArtists());
+    }
+  }
+
 
   return (
     <Grid container direction="column" spacing={2}>
@@ -22,10 +29,8 @@ const Artists = () => {
         {artistsFetching ? <Progress/> : artists.map(artist => (
           <ArtistsItem
             key={artist._id}
-            id={artist._id}
-            name={artist.name}
-            image={artist.image}
-            info={artist.info}
+            artist={artist}
+            onDelete={() => deleteArtist(artist._id)}
           />
         ))}
       </Grid>

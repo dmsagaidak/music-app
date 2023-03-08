@@ -3,6 +3,9 @@ import Artist from "../models/Artist";
 import mongoose from "mongoose";
 import {imagesUpload} from "../multer";
 import auth, {RequestWithUser} from "../middleware/auth";
+import permit from "../middleware/permit";
+import Album from "../models/Album";
+import Track from "../models/Track";
 
 
 const artistsRouter = express.Router();
@@ -56,6 +59,37 @@ artistsRouter.post('/', auth, imagesUpload.single('image'), async(req, res, next
     }
 });
 
+artistsRouter.delete('/:id', auth, permit('admin'), async  (req, res, next) => {
+    try{
+        const user = (req as RequestWithUser).user;
 
+        if (user.role !== 'admin'){
+            res.status(403).send({message: 'Only admins can delete this  item'})
+        }
+
+        const removingArtist = await Artist.findById(req.params.id);
+        const currentAlbums = await Album.find({artist: req.params.id});
+        const albumIds = currentAlbums.map(album => {
+            return album._id
+        });
+        const currentTracks = await Track.find({album: {$in: albumIds}});
+
+        if(!removingArtist) {
+            return res.status(404).send({message: "Error. Artist not found"});
+        }else if (currentTracks.length || currentAlbums.length) {
+            return res.status(400).send({message: 'Artists having albums and tracks cannot be removed'});
+        }else {
+            await Artist.deleteOne({_id: req.params.id});
+            return res.send({message: 'Artist was successfully removed'});
+        }
+    }catch (e) {
+        if(e instanceof mongoose.Error.ValidationError) {
+            return res.status(400).send(e);
+        }
+
+        return next(e);
+    }
+
+})
 
 export default artistsRouter;

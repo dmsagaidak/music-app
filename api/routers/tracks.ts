@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import Track from "../models/Track";
 import Album from "../models/Album";
 import auth, {RequestWithUser} from "../middleware/auth";
+import permit from "../middleware/permit";
 
 const tracksRouter = express.Router();
 
@@ -68,5 +69,30 @@ tracksRouter.post('/', auth, async (req, res, next) => {
         }
     }
 });
+
+tracksRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
+    try{
+        const user = (req as RequestWithUser).user;
+
+        if (user.role !== 'admin'){
+            res.status(403).send({message: 'Only admins can delete this  item'})
+        }
+
+        const removingTrack = await Track.findById(req.params.id);
+        if(!removingTrack){
+            return res.status(404).send({error: 'Track not found'});
+        }else{
+            await Track.deleteOne({_id: req.params.id});
+            return res.send({message: 'Track was successfully removed'});
+        }
+
+    }catch (e) {
+        if(e instanceof mongoose.Error.ValidationError) {
+            return res.status(400).send(e);
+        }
+
+        return next(e);
+    }
+})
 
 export default tracksRouter;

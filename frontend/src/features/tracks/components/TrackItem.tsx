@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Card, Grid, IconButton, Modal, Typography } from '@mui/material';
+import { Box, Button, Card, Grid, IconButton, Modal, Typography } from '@mui/material';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import { Track } from '../../../types';
 import { createTrackHistory } from '../../trackHistory/trackHistoryThunks';
@@ -8,15 +8,18 @@ import { selectUser } from '../../users/usersSlice';
 import { selectTrackHistoryCreateLoading } from '../../trackHistory/trackHistorySlice';
 import ReactPlayer from 'react-player'
 import YouTubeIcon from '@mui/icons-material/YouTube';
+import { selectTrackDeleting } from '../tracksSlice';
 
 interface Props {
-  track: Track
+  track: Track;
+  onDelete: (id: string) => void;
 }
 
-const TrackItem: React.FC<Props> = ({track}) => {
+const TrackItem: React.FC<Props> = ({onDelete, track}) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const trackHistoryCreating = useAppSelector(selectTrackHistoryCreateLoading);
+  const trackDeleting = useAppSelector(selectTrackDeleting);
 
   const [open, setOpen] = useState(false);
 
@@ -30,7 +33,8 @@ const TrackItem: React.FC<Props> = ({track}) => {
   const playVideo = async (trackId: string) => {
     await sendTrackHistory(trackId);
     setOpen(true);
-  }
+  };
+
 
   return (
     <>
@@ -43,13 +47,14 @@ const TrackItem: React.FC<Props> = ({track}) => {
           {user? (<Typography component={'div'} width={'100px'}>
             <IconButton
               type="button"
-              disabled={trackHistoryCreating}
+              disabled={trackHistoryCreating || trackDeleting === track._id}
               onClick={() => sendTrackHistory(track._id)}
             ><PlayCircleFilledIcon width={"10px"} height={"10px"}/>
             </IconButton>
             {track.video ? (<IconButton
               type="button"
               onClick={() => playVideo(track._id)}
+              disabled={trackDeleting === track._id}
             >
               <YouTubeIcon/>
             </IconButton>) : (<Typography component={'div'} width={'40px'}></Typography>)
@@ -61,6 +66,13 @@ const TrackItem: React.FC<Props> = ({track}) => {
           <Typography component={"span"}>
             {track.duration}
           </Typography>
+          {user?.role === 'admin' && (<Button
+            type="button"
+            color='error'
+            variant='contained'
+            onClick={() => onDelete(track._id)}
+            disabled={trackDeleting === track._id}
+          >Remove</Button>)}
         </Grid>
       </Card>
       <Modal

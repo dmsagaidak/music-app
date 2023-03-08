@@ -1,9 +1,12 @@
 import React from 'react';
-import { Artist } from '../../../types';
+import { Album } from '../../../types';
 import { Button, Card, CardContent, CardHeader, CardMedia, Grid, styled, Typography } from '@mui/material';
 import noImage from '../../../assets/images/noimage.jpg';
 import { apiUrl } from '../../../constants';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../../app/hooks';
+import { selectUser } from '../../users/usersSlice';
+import { selectAlbumDeleting } from '../albumsSlice';
 
 const ImageCardMedia = styled(CardMedia)({
   height: 0,
@@ -11,32 +14,42 @@ const ImageCardMedia = styled(CardMedia)({
 });
 
 interface Props {
-  id: string;
-  title: string;
-  artist: Artist;
-  year: number;
-  image: string | null;
+  album: Album;
+  onDelete: (id: string) => void;
 }
 
-const AlbumsItem: React.FC<Props> = ({id, title,artist,year,image}) => {
+const AlbumsItem: React.FC<Props> = ({album, onDelete}) => {
   const navigate = useNavigate();
+  const user = useAppSelector(selectUser);
+  const albumDeleting = useAppSelector(selectAlbumDeleting);
 
   let cardImage = noImage;
 
-  if (image) {
-    cardImage = apiUrl + '/' + image;
+  if (album.image) {
+    cardImage = apiUrl + '/' + album.image;
   }
 
   return (
       <Grid item width={"250px"}>
         <Card style={{textAlign: 'center'}}>
-          <CardHeader title={title} />
+          <CardHeader title={album.title} />
           <Typography component={"div"} style={{width: '200px', marginLeft: "auto", marginRight: "auto"}}>
-            <ImageCardMedia image={cardImage} title={title}/>
+            <ImageCardMedia image={cardImage} title={album.title}/>
           </Typography>
           <CardContent>
-            Issued in {year}
-            <Button onClick={() => navigate('/albums/' + id)}>See details</Button>
+            Issued in {album.year}
+            <Button
+              onClick={() => navigate('/albums/' + album._id)}
+              disabled={albumDeleting === album._id}
+            >See details</Button>
+            {user?.role === 'admin' &&
+              (<Button
+                type='button'
+                color='error'
+                variant='contained'
+                onClick={() => onDelete(album._id)}
+                disabled={albumDeleting === album._id}
+            >Remove</Button>)}
           </CardContent>
         </Card>
       </Grid>
