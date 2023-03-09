@@ -21,7 +21,7 @@ const run = async () => {
         console.log('Collections were not present, skipping drop...');
     }
 
-    const [thebeatles, acdc] = await Artist.create({
+    const [thebeatles, acdc, nirvana] = await Artist.create({
         name: 'The Beatles',
         image: "fixtures/thebeatles.jpg",
         info: 'The Beatles were an English rock band formed in Liverpool in 1960',
@@ -31,9 +31,14 @@ const run = async () => {
         image: "fixtures/acdc.jpg",
         info: null,
         isPublished: true,
+    }, {
+        name: 'Nirvana',
+        image: 'fixtures/nirvana.jpeg',
+        info: 'Nirvana was an American rock band formed in Aberdeen, Washington, in 1987.',
+        isPublished: false,
     });
 
-    const [thebeatlesalbum1, thebeatlesalbum2, thebeatlesalbum3,acdcalbum1, acdcalbum2] = await Album.create({
+    const [thebeatlesalbum1, thebeatlesalbum2, thebeatlesalbum3,acdcalbum1, acdcalbum2, nirvanaalbum] = await Album.create({
         title: 'Abbey Road',
         artist: thebeatles,
         year: 1969,
@@ -63,6 +68,12 @@ const run = async () => {
         year: 1979,
         image: "fixtures/highway.jpg",
         isPublished: true,
+    }, {
+        title: 'Nevermind',
+        artist: nirvana,
+        year: 1991,
+        image: 'fixtures/nevermind.jpg',
+        isPublished: false,
     });
 
     await Track.create({
@@ -240,6 +251,27 @@ const run = async () => {
         duration: '3:09',
         video: null,
         isPublished: true,
+    }, {
+        tracknumber: 1,
+        title: 'Smells Like Teen Spirit',
+        album: nirvanaalbum,
+        duration: '5:01',
+        video: 'https://youtu.be/hTWKbfoikeg',
+        isPublished: false,
+    }, {
+        tracknumber: 2,
+        title: 'In Bloom',
+        album: nirvanaalbum,
+        duration: '4:14',
+        video: null,
+        isPublished: false,
+    }, {
+        tracknumber: 3,
+        title: 'Come as You Are',
+        album: nirvanaalbum,
+        duration: '3:38',
+        video: null,
+        isPublished: false
     });
 
     const [user1, user2, admin] = await User.create({

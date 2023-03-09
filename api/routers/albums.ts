@@ -5,20 +5,33 @@ import {imagesUpload} from "../multer";
 import auth, {RequestWithUser} from "../middleware/auth";
 import permit from "../middleware/permit";
 import Track from "../models/Track";
+import userMiddleware from "../middleware/userMiddleware";
 
 
 
 const albumsRouter = express.Router();
 
-albumsRouter.get('/', async (req, res, next) => {
+albumsRouter.get('/', userMiddleware, async (req, res, next) => {
     try{
-        if(req.query.artist){
-            const albums = await Album.find({artist: req.query.artist}).populate('artist').sort({year: -1});
+        const user = (req as RequestWithUser).user;
+
+        if(!user || user.role === 'user') {
+            if(req.query.artist){
+                const albums = await Album.find({artist: req.query.artist, isPublished: true}).populate('artist').sort({year: -1});
+                return res.send(albums);
+            }
+
+            const albums = await Album.find({isPublished: true}).populate('artist').sort({year: -1});
+            return res.send(albums);
+        }else {
+            if(req.query.artist){
+                const albums = await Album.find({artist: req.query.artist}).populate('artist').sort({year: -1});
+                return res.send(albums);
+            }
+
+            const albums = await Album.find().populate('artist').sort({year: -1});
             return res.send(albums);
         }
-
-       const albums = await Album.find().populate('artist').sort({year: -1});
-       return res.send(albums);
     }catch (e) {
         return next(e);
     }

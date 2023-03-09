@@ -6,14 +6,23 @@ import auth, {RequestWithUser} from "../middleware/auth";
 import permit from "../middleware/permit";
 import Album from "../models/Album";
 import Track from "../models/Track";
+import userMiddleware from "../middleware/userMiddleware";
 
 
 const artistsRouter = express.Router();
 
-artistsRouter.get('/', async(req, res, next) => {
+artistsRouter.get('/', userMiddleware, async(req, res, next) => {
     try{
-        const artists = await Artist.find();
-        return res.send(artists);
+        const user = (req as RequestWithUser).user;
+
+        if (!user || user.role === 'user') {
+            const artists = await Artist.find({isPublished: true});
+            return res.send(artists);
+        } else {
+            const artists = await Artist.find();
+            return res.send(artists);
+        }
+
     }catch (e) {
        return next (e);
     }
