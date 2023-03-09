@@ -73,7 +73,7 @@ artistsRouter.delete('/:id', auth, permit('admin'), async  (req, res, next) => {
         const user = (req as RequestWithUser).user;
 
         if (user.role !== 'admin'){
-            res.status(403).send({message: 'Only admins can delete this  item'})
+            res.status(403).send({message: 'Only admins can delete this  item'});
         }
 
         const removingArtist = await Artist.findById(req.params.id);
@@ -99,6 +99,35 @@ artistsRouter.delete('/:id', auth, permit('admin'), async  (req, res, next) => {
         return next(e);
     }
 
+});
+
+artistsRouter.patch('/:id/togglePublished', auth, permit('admin'), async (req, res, next) => {
+    try{
+        const user = (req as RequestWithUser).user;
+
+        if (user.role !== 'admin'){
+            res.status(403).send({message: 'Only admins can toggle items status'});
+        }
+
+        const updatingArtist = await Artist.findById(req.params.id);
+
+        if(!updatingArtist) {
+            return res.status(404).send({error: 'Artist not found'});
+        }
+
+        await Artist.updateOne({_id: req.params.id},
+            {$set: {isPublished: true}});
+
+        const updated = await Artist.findById(req.params.id);
+        return res.send(updated);
+
+    }catch (e) {
+        if(e instanceof mongoose.Error.ValidationError) {
+            return res.status(400).send(e);
+        }
+
+        return next(e);
+    }
 })
 
 export default artistsRouter;

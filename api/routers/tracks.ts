@@ -109,6 +109,36 @@ tracksRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
 
         return next(e);
     }
+});
+
+tracksRouter.patch('/:id/togglePublished', auth, permit('admin'), async (req, res, next) => {
+    try{
+        const user = (req as RequestWithUser).user;
+
+        if (user.role !== 'admin'){
+            res.status(403).send({message: 'Only admins can toggle items status'});
+        }
+
+        const updatingTrack = await Track.findById(req.params.id);
+
+        if(!updatingTrack) {
+            return res.status(404).send({error: 'Track not found'});
+        }
+
+        await Track.updateOne({_id: req.params.id},
+            {$set: {isPublished: true}});
+
+        const updated = await Track.findById(req.params.id);
+
+        return res.send(updated);
+
+    }catch (e) {
+        if(e instanceof mongoose.Error.ValidationError) {
+            return res.status(400).send(e);
+        }
+
+        return next(e);
+    }
 })
 
 export default tracksRouter;

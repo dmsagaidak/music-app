@@ -104,6 +104,34 @@ albumsRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
 
         return next(e);
     }
+});
+
+albumsRouter.patch('/:id/togglePublished', auth, permit('admin'), async (req, res, next) => {
+    try{
+        const user = (req as RequestWithUser).user;
+
+        if (user.role !== 'admin'){
+            res.status(403).send({message: 'Only admins can toggle items status'});
+        }
+
+        const updatingAlbum = await Album.findById(req.params.id);
+
+        if(!updatingAlbum) {
+            res.status(404).send({error: 'Album not found'});
+        }
+
+        await Album.updateOne({_id: req.params.id},
+            {$set: {isPublished: true}});
+
+        const updated = await Album.findById(req.params.id);
+        return res.send(updated);
+    }catch (e) {
+        if(e instanceof mongoose.Error.ValidationError) {
+            return res.status(400).send(e);
+        }
+
+        return next(e);
+    }
 })
 
 export default albumsRouter;
