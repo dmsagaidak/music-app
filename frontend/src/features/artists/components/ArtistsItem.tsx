@@ -1,12 +1,12 @@
 import React from 'react';
-import { Button, Card, CardContent, CardHeader, CardMedia, Grid, styled } from '@mui/material';
+import { Button, Card, CardContent, CardHeader, CardMedia, Grid, styled, Typography } from '@mui/material';
 import noImage from '../../../assets/images/noimage.jpg'
 import { apiUrl } from '../../../constants';
 import {useNavigate } from 'react-router-dom';
 import { Artist } from '../../../types';
 import { useAppSelector } from '../../../app/hooks';
 import { selectUser } from '../../users/usersSlice';
-import { selectArtistDeleting } from '../artistsSlice';
+import { selectArtistDeleting, selectArtistUpdating } from '../artistsSlice';
 
 const ImageCardMedia = styled(CardMedia)({
   height: 0,
@@ -16,12 +16,14 @@ const ImageCardMedia = styled(CardMedia)({
 interface Props {
   artist: Artist;
   onDelete: (id: string) => void;
+  onTogglePublished: (artist: Artist) => void;
 }
 
-const ArtistsItem: React.FC<Props> = ({artist, onDelete}) => {
+const ArtistsItem: React.FC<Props> = ({artist, onDelete, onTogglePublished}) => {
   const navigate = useNavigate();
   const user = useAppSelector(selectUser);
   const artistDeleting = useAppSelector(selectArtistDeleting);
+  const artistUpdating = useAppSelector(selectArtistUpdating);
 
   let cardImage = noImage;
 
@@ -35,19 +37,33 @@ const ArtistsItem: React.FC<Props> = ({artist, onDelete}) => {
         <CardHeader title={artist.name}/>
         <ImageCardMedia image={cardImage} title={artist.name}/>
         <CardContent>
-          <Button
-            onClick={() => navigate('/artists/' + artist._id)}
-            disabled={artistDeleting === artist._id}
-          >See more</Button>
-          {user?.role === 'admin' && (
+          <Typography component='div' textAlign="center">
             <Button
-              type="button"
-              color='error'
-              variant='contained'
-              onClick={() => onDelete(artist._id)}
-              disabled={artistDeleting === artist._id}
-            >Remove</Button>
-          )}
+              onClick={() => navigate('/artists/' + artist._id)}
+              disabled={artistDeleting === artist._id || artistUpdating}
+            >See more</Button>
+          </Typography>
+          <Typography component='div' textAlign='center'>
+            {user?.role === 'admin' && (
+              <>
+                <Button
+                  type="button"
+                  color='error'
+                  variant='contained'
+                  onClick={() => onDelete(artist._id)}
+                  disabled={artistDeleting === artist._id || artistUpdating}
+                >Remove</Button>
+                <Button
+                  type="button"
+                  color="secondary"
+                  variant="contained"
+                  style={{marginLeft: '5px'}}
+                  onClick={() => onTogglePublished(artist)}
+                  disabled={artistDeleting === artist._id || artistUpdating}
+                >{artist.isPublished ? 'Unpublish': 'Publish'}</Button>
+              </>
+            )}
+          </Typography>
         </CardContent>
       </Card>
 

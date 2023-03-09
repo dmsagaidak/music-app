@@ -67,7 +67,6 @@ tracksRouter.post('/', auth, async (req, res, next) => {
             return res.status(401).send({error: 'Wrong token!'});
         }
 
-
         const track = await Track.create({
         tracknumber: req.body.tracknumber,
         title: req.body.title,
@@ -125,8 +124,13 @@ tracksRouter.patch('/:id/togglePublished', auth, permit('admin'), async (req, re
             return res.status(404).send({error: 'Track not found'});
         }
 
-        await Track.updateOne({_id: req.params.id},
-            {$set: {isPublished: true}});
+        if(updatingTrack.isPublished) {
+            await Track.updateOne({_id: req.params.id},
+                {$set: {isPublished: false}});
+        }else {
+            await Track.updateOne({_id: req.params.id},
+                {$set: {isPublished: true}});
+        }
 
         const updated = await Track.findById(req.params.id);
 

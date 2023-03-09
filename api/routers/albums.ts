@@ -120,8 +120,14 @@ albumsRouter.patch('/:id/togglePublished', auth, permit('admin'), async (req, re
             res.status(404).send({error: 'Album not found'});
         }
 
-        await Album.updateOne({_id: req.params.id},
-            {$set: {isPublished: true}});
+        if(updatingAlbum?.isPublished === false) {
+            await Album.updateOne({_id: req.params.id},
+                {$set: {isPublished: true}});
+        }else{
+            await Album.updateOne({_id: req.params.id},
+                {$set: {isPublished: false}});
+        }
+
 
         const updated = await Album.findById(req.params.id);
         return res.send(updated);

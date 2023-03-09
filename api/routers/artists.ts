@@ -115,8 +115,13 @@ artistsRouter.patch('/:id/togglePublished', auth, permit('admin'), async (req, r
             return res.status(404).send({error: 'Artist not found'});
         }
 
-        await Artist.updateOne({_id: req.params.id},
-            {$set: {isPublished: true}});
+        if(updatingArtist.isPublished === false) {
+            await Artist.updateOne({_id: req.params.id},
+                {$set: {isPublished: true}});
+        }else{
+            await Artist.updateOne({_id: req.params.id},
+                {$set: {isPublished: false}});
+        }
 
         const updated = await Artist.findById(req.params.id);
         return res.send(updated);

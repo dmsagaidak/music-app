@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectArtists, selectArtistsFetching } from './artistsSlice';
-import { fetchArtists, removeArtist } from './artistsThunks';
+import { artistTogglePublished, fetchArtists, removeArtist } from './artistsThunks';
 import { Grid } from '@mui/material';
 import ArtistsItem from './components/ArtistsItem';
 import Progress from '../../components/UI/Progress/Progress';
+import { Artist } from '../../types';
 
 const Artists = () => {
   const dispatch = useAppDispatch();
@@ -20,8 +21,14 @@ const Artists = () => {
       await dispatch(removeArtist(id));
       await dispatch(fetchArtists());
     }
-  }
+  };
 
+  const togglePublished = async (artist: Artist) => {
+    artist.isPublished ?
+    await dispatch(artistTogglePublished({...artist, isPublished: true})) :
+    await dispatch(artistTogglePublished({...artist, isPublished: false}))
+    await dispatch(fetchArtists());
+  }
 
   return (
     <Grid container direction="column" spacing={2}>
@@ -31,6 +38,7 @@ const Artists = () => {
             key={artist._id}
             artist={artist}
             onDelete={() => deleteArtist(artist._id)}
+            onTogglePublished={() => togglePublished(artist)}
           />
         ))}
       </Grid>

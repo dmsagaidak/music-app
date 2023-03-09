@@ -6,7 +6,7 @@ import { apiUrl } from '../../../constants';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../../app/hooks';
 import { selectUser } from '../../users/usersSlice';
-import { selectAlbumDeleting } from '../albumsSlice';
+import { selectAlbumDeleting, selectAlbumUpdating } from '../albumsSlice';
 
 const ImageCardMedia = styled(CardMedia)({
   height: 0,
@@ -16,12 +16,14 @@ const ImageCardMedia = styled(CardMedia)({
 interface Props {
   album: Album;
   onDelete: (id: string) => void;
+  onTogglePublished: (album: Album)  => void;
 }
 
-const AlbumsItem: React.FC<Props> = ({album, onDelete}) => {
+const AlbumsItem: React.FC<Props> = ({album, onDelete, onTogglePublished}) => {
   const navigate = useNavigate();
   const user = useAppSelector(selectUser);
   const albumDeleting = useAppSelector(selectAlbumDeleting);
+  const albumUpdating = useAppSelector(selectAlbumUpdating);
 
   let cardImage = noImage;
 
@@ -40,7 +42,7 @@ const AlbumsItem: React.FC<Props> = ({album, onDelete}) => {
             Issued in {album.year}
             <Button
               onClick={() => navigate('/albums/' + album._id)}
-              disabled={albumDeleting === album._id}
+              disabled={albumDeleting === album._id || albumUpdating}
             >See details</Button>
             {user?.role === 'admin' &&
               (<Button
@@ -48,8 +50,19 @@ const AlbumsItem: React.FC<Props> = ({album, onDelete}) => {
                 color='error'
                 variant='contained'
                 onClick={() => onDelete(album._id)}
-                disabled={albumDeleting === album._id}
+                disabled={albumDeleting === album._id || albumUpdating}
             >Remove</Button>)}
+            <Typography component='div' style={{marginTop: '5px'}}>
+              {user?.role === 'admin' && (
+                <Button
+                  type="button"
+                  color="secondary"
+                  variant="contained"
+                  onClick={() => onTogglePublished(album)}
+                  disabled={albumDeleting === album._id || albumUpdating}
+                >{album.isPublished ? 'Unpublish' : 'Publish'}</Button>
+              )}
+            </Typography>
           </CardContent>
         </Card>
       </Grid>

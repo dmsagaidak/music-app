@@ -8,18 +8,20 @@ import { selectUser } from '../../users/usersSlice';
 import { selectTrackHistoryCreateLoading } from '../../trackHistory/trackHistorySlice';
 import ReactPlayer from 'react-player'
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import { selectTrackDeleting } from '../tracksSlice';
+import { selectTrackDeleting, selectTrackUpdating } from '../tracksSlice';
 
 interface Props {
   track: Track;
   onDelete: (id: string) => void;
+  onTogglePublished: (track: Track) => void;
 }
 
-const TrackItem: React.FC<Props> = ({onDelete, track}) => {
+const TrackItem: React.FC<Props> = ({onDelete, track, onTogglePublished}) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const trackHistoryCreating = useAppSelector(selectTrackHistoryCreateLoading);
   const trackDeleting = useAppSelector(selectTrackDeleting);
+  const trackUpdating = useAppSelector(selectTrackUpdating);
 
   const [open, setOpen] = useState(false);
 
@@ -47,14 +49,14 @@ const TrackItem: React.FC<Props> = ({onDelete, track}) => {
           {user? (<Typography component={'div'} width={'100px'}>
             <IconButton
               type="button"
-              disabled={trackHistoryCreating || trackDeleting === track._id}
+              disabled={trackHistoryCreating || trackDeleting === track._id || trackUpdating}
               onClick={() => sendTrackHistory(track._id)}
             ><PlayCircleFilledIcon width={"10px"} height={"10px"}/>
             </IconButton>
             {track.video ? (<IconButton
               type="button"
               onClick={() => playVideo(track._id)}
-              disabled={trackDeleting === track._id}
+              disabled={trackHistoryCreating || trackDeleting === track._id || trackUpdating}
             >
               <YouTubeIcon/>
             </IconButton>) : (<Typography component={'div'} width={'40px'}></Typography>)
@@ -66,13 +68,24 @@ const TrackItem: React.FC<Props> = ({onDelete, track}) => {
           <Typography component={"span"}>
             {track.duration}
           </Typography>
-          {user?.role === 'admin' && (<Button
-            type="button"
-            color='error'
-            variant='contained'
-            onClick={() => onDelete(track._id)}
-            disabled={trackDeleting === track._id}
-          >Remove</Button>)}
+          {user?.role === 'admin' && (
+            <>
+              <Button
+                type="button"
+                color='error'
+                variant='contained'
+                onClick={() => onDelete(track._id)}
+                disabled={trackUpdating || trackDeleting === track._id || trackHistoryCreating}
+              >Remove</Button>
+              <Button
+                type="button"
+                color="secondary"
+                variant="contained"
+                onClick={() => onTogglePublished(track)}
+                disabled={trackUpdating || trackDeleting === track._id || trackHistoryCreating}
+              >{track.isPublished ? 'Unpublish' : 'Publish'}</Button>
+          </>
+          )}
         </Grid>
       </Card>
       <Modal

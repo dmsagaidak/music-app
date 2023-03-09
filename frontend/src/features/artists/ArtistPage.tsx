@@ -4,12 +4,13 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectOneArtist, selectOneArtistFetching } from './artistsSlice';
 import { fetchOneArtist } from './artistsThunks';
 import { selectAlbums, selectAlbumsFetching } from '../albums/albumsSlice';
-import { fetchAlbumsByArtist, removeAlbum } from '../albums/albumsThunks';
+import { albumTogglePublished, fetchAlbumsByArtist, removeAlbum } from '../albums/albumsThunks';
 import { Grid, Typography } from '@mui/material';
 import AlbumsItem from '../albums/components/AlbumsItem';
 import noImage from '../../assets/images/noimage.jpg'
 import { apiUrl } from '../../constants';
 import Progress from '../../components/UI/Progress/Progress';
+import { Album } from '../../types';
 
 const ArtistPage = () => {
   const {id} = useParams() as {id: string};
@@ -31,7 +32,14 @@ const ArtistPage = () => {
       await dispatch(removeAlbum(albumId));
       await dispatch(fetchAlbumsByArtist(id));
     }
-  }
+  };
+
+  const togglePublished = async (album: Album) => {
+    album.isPublished ?
+    await dispatch(albumTogglePublished({...album, isPublished: false})) :
+    await dispatch(albumTogglePublished({...album, isPublished: true}));
+    await dispatch(fetchAlbumsByArtist(id));
+  };
 
   let artistPic = noImage;
 
@@ -57,6 +65,7 @@ const ArtistPage = () => {
           key={album._id}
           album={album}
           onDelete={() => deleteAlbum(album._id)}
+          onTogglePublished={() => togglePublished(album)}
           />
         ))}
       </Grid>

@@ -3,13 +3,14 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {  useParams } from 'react-router-dom';
 import { fetchOneAlbum } from './albumsThunks';
 import { selectOneAlbum, selectOneAlbumFetching } from './albumsSlice';
-import { fetchTracksByAlbum, removeTrack } from '../tracks/tracksThunks';
+import { fetchTracksByAlbum, removeTrack, trackTogglePublished } from '../tracks/tracksThunks';
 import { selectTracks, selectTracksFetching } from '../tracks/tracksSlice';
 import { Typography } from '@mui/material';
 import noImage from '../../assets/images/noimage.jpg';
 import { apiUrl, frontUrl } from '../../constants';
 import Progress from '../../components/UI/Progress/Progress';
 import TrackItem from '../tracks/components/TrackItem';
+import { Track } from '../../types';
 
 const AlbumPage = () => {
   const dispatch = useAppDispatch();
@@ -30,6 +31,13 @@ const AlbumPage = () => {
       await dispatch(removeTrack(trackId));
       await dispatch(fetchTracksByAlbum(id))
     }
+  };
+
+  const togglePublished = async (track: Track) => {
+    track.isPublished ?
+    await dispatch(trackTogglePublished({...track, isPublished: false})) :
+    await dispatch(trackTogglePublished({...track, isPublished: true}));
+    await dispatch(fetchTracksByAlbum(id));
   }
 
   let albumImg = noImage;
@@ -60,6 +68,7 @@ const AlbumPage = () => {
         key={track._id}
         track={track}
         onDelete={() => deleteTrack(track._id)}
+        onTogglePublished={() => togglePublished(track)}
         />
       ))}
     </>

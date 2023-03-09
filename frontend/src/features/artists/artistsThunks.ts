@@ -44,4 +44,13 @@ export const removeArtist = createAsyncThunk<void, string>(
   async (id) => {
     await axiosApi.delete('/artists/' + id);
   }
+);
+
+
+export const artistTogglePublished = createAsyncThunk<void, Artist>(
+  'artists/togglePublished',
+  async(artist) => {
+    await axiosApi.patch('/artists/' + artist._id + '/togglePublished', artist);
+  }
 )
+
