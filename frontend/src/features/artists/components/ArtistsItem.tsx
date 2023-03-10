@@ -37,6 +37,7 @@ const ArtistsItem: React.FC<Props> = ({artist, onDelete, onTogglePublished}) => 
         <CardHeader title={artist.name}/>
         <ImageCardMedia image={cardImage} title={artist.name}/>
         <CardContent>
+          {!artist.isPublished && (<Typography component='p' sx={{textAlign: 'center', color: 'red'}}>Unpublished</Typography>)}
           <Typography component='div' textAlign="center">
             <Button
               onClick={() => navigate('/artists/' + artist._id)}

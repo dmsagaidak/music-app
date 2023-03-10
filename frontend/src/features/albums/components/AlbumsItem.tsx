@@ -40,6 +40,7 @@ const AlbumsItem: React.FC<Props> = ({album, onDelete, onTogglePublished}) => {
           </Typography>
           <CardContent>
             Issued in {album.year}
+            {!album.isPublished && (<Typography component='p' sx={{textAlign: 'center', color: 'red'}}>Unpublished</Typography>)}
             <Button
               onClick={() => navigate('/albums/' + album._id)}
               disabled={albumDeleting === album._id || albumUpdating}

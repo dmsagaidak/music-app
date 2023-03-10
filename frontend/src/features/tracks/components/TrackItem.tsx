@@ -87,6 +87,7 @@ const TrackItem: React.FC<Props> = ({onDelete, track, onTogglePublished}) => {
           </>
           )}
         </Grid>
+        {!track.isPublished && <Typography component='span' width='100px' color='red' textAlign='center'>Unpublished</Typography>}
       </Card>
       <Modal
         open={open}
