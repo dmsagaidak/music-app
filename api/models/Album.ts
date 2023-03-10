@@ -21,6 +21,7 @@ const AlbumSchema = new Schema({
     year: {
         type: Number,
         required: true,
+        min: 1889,
     },
     image: String,
     isPublished: {

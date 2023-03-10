@@ -101,7 +101,8 @@ const AlbumForm: React.FC<Props> = ({onSubmit}) => {
             type="submit"
             color="primary"
             variant="contained"
-            disabled={albumCreating}
+            disabled={albumCreating || state.artist === '' || state.title === '' || state.year === ''
+              || isNaN(parseInt(state.year)) || (parseInt(state.year)) < 1889}
           >Create album</Button>
         </Grid>
       </Grid>

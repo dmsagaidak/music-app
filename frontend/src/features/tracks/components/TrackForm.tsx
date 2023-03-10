@@ -106,7 +106,8 @@ const TrackForm: React.FC<Props> = ({onSubmit}) => {
             type="submit"
             color="primary"
             variant="contained"
-            disabled={trackCreating}
+            disabled={trackCreating || state.album === '' || isNaN(parseInt(state.tracknumber)) ||
+              parseInt(state.tracknumber) < 1 || state.title === '' || state.duration === ''}
           >Create track</Button>
         </Grid>
       </Grid>

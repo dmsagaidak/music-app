@@ -8,6 +8,7 @@ const TrackSchema = new Schema({
         type: Number,
         required: true,
         unique: true,
+        min: 1,
     },
     title: {
         type: String,
