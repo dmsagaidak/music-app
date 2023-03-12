@@ -16,10 +16,10 @@ const ImageCardMedia = styled(CardMedia)({
 interface Props {
   album: Album;
   onDelete: (id: string) => void;
-  onTogglePublished: (album: Album)  => void;
+  onTogglePublished: (album: Album) => void;
 }
 
-const AlbumsItem: React.FC<Props> = ({album, onDelete, onTogglePublished}) => {
+const AlbumsItem: React.FC<Props> = ({ album, onDelete, onTogglePublished }) => {
   const navigate = useNavigate();
   const user = useAppSelector(selectUser);
   const albumDeleting = useAppSelector(selectAlbumDeleting);
@@ -32,41 +32,52 @@ const AlbumsItem: React.FC<Props> = ({album, onDelete, onTogglePublished}) => {
   }
 
   return (
-      <Grid item width={"250px"}>
-        <Card style={{textAlign: 'center'}}>
-          <CardHeader title={album.title} />
-          <Typography component={"div"} style={{width: '200px', marginLeft: "auto", marginRight: "auto"}}>
-            <ImageCardMedia image={cardImage} title={album.title}/>
-          </Typography>
-          <CardContent>
-            Issued in {album.year}
-            {!album.isPublished && (<Typography component='p' sx={{textAlign: 'center', color: 'red'}}>Unpublished</Typography>)}
-            <Button
-              onClick={() => navigate('/albums/' + album._id)}
-              disabled={albumDeleting === album._id || albumUpdating}
-            >See details</Button>
-            {user?.role === 'admin' &&
-              (<Button
-                type='button'
-                color='error'
-                variant='contained'
-                onClick={() => onDelete(album._id)}
-                disabled={albumDeleting === album._id || albumUpdating}
-            >Remove</Button>)}
-            <Typography component='div' style={{marginTop: '5px'}}>
-              {user?.role === 'admin' && (
-                <Button
-                  type="button"
-                  color="secondary"
-                  variant="contained"
-                  onClick={() => onTogglePublished(album)}
-                  disabled={albumDeleting === album._id || albumUpdating}
-                >{album.isPublished ? 'Unpublish' : 'Publish'}</Button>
-              )}
+    <Grid item width={'250px'}>
+      <Card style={{ textAlign: 'center' }}>
+        <CardHeader title={album.title} />
+        <Typography component={'div'} style={{ width: '200px', marginLeft: 'auto', marginRight: 'auto' }}>
+          <ImageCardMedia image={cardImage} title={album.title} />
+        </Typography>
+        <CardContent>
+          Issued in {album.year}
+          {!album.isPublished && (
+            <Typography component="p" sx={{ textAlign: 'center', color: 'red' }}>
+              Unpublished
             </Typography>
-          </CardContent>
-        </Card>
-      </Grid>
+          )}
+          <Button
+            onClick={() => navigate('/albums/' + album._id)}
+            disabled={albumDeleting === album._id || albumUpdating}
+          >
+            See details
+          </Button>
+          {user?.role === 'admin' && (
+            <Button
+              type="button"
+              color="error"
+              variant="contained"
+              onClick={() => onDelete(album._id)}
+              disabled={albumDeleting === album._id || albumUpdating}
+            >
+              Remove
+            </Button>
+          )}
+          <Typography component="div" style={{ marginTop: '5px' }}>
+            {user?.role === 'admin' && (
+              <Button
+                type="button"
+                color="secondary"
+                variant="contained"
+                onClick={() => onTogglePublished(album)}
+                disabled={albumDeleting === album._id || albumUpdating}
+              >
+                {album.isPublished ? 'Unpublish' : 'Publish'}
+              </Button>
+            )}
+          </Typography>
+        </CardContent>
+      </Card>
+    </Grid>
   );
 };
 

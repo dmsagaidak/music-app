@@ -10,7 +10,7 @@ interface Props {
   onSubmit: (mutation: TrackMutation) => void;
 }
 
-const TrackForm: React.FC<Props> = ({onSubmit}) => {
+const TrackForm: React.FC<Props> = ({ onSubmit }) => {
   const dispatch = useAppDispatch();
   const albums = useAppSelector(selectAlbums);
   const trackCreating = useAppSelector(selectTrackCreating);
@@ -20,12 +20,11 @@ const TrackForm: React.FC<Props> = ({onSubmit}) => {
     title: '',
     album: '',
     duration: '',
-    video: ''
+    video: '',
   });
 
   useEffect(() => {
     void dispatch(fetchAlbums());
-    console.log(albums)
   }, [dispatch]);
 
   const submitFormHandler = (e: React.FormEvent) => {
@@ -34,17 +33,14 @@ const TrackForm: React.FC<Props> = ({onSubmit}) => {
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = e.target;
-    setState(prevState => {
-      return {...prevState, [name]: value};
+    const { name, value } = e.target;
+    setState((prevState) => {
+      return { ...prevState, [name]: value };
     });
   };
 
   return (
-    <form
-      autoComplete="off"
-      onSubmit={submitFormHandler}
-    >
+    <form autoComplete="off" onSubmit={submitFormHandler}>
       <Grid container direction={'column'} spacing={2}>
         <Grid item xs>
           <TextField
@@ -56,9 +52,13 @@ const TrackForm: React.FC<Props> = ({onSubmit}) => {
             required
             disabled={trackCreating}
           >
-            <MenuItem value={''} disabled>Please, select an album</MenuItem>
-            {albums.map(album => (
-              <MenuItem key={album._id} value={album._id}>{album.title}</MenuItem>
+            <MenuItem value={''} disabled>
+              Please, select an album
+            </MenuItem>
+            {albums.map((album) => (
+              <MenuItem key={album._id} value={album._id}>
+                {album.title}
+              </MenuItem>
             ))}
           </TextField>
         </Grid>
@@ -68,19 +68,12 @@ const TrackForm: React.FC<Props> = ({onSubmit}) => {
             label="Track number"
             value={state.tracknumber}
             onChange={inputChangeHandler}
-            name='tracknumber'
+            name="tracknumber"
             required
           />
         </Grid>
         <Grid item xs>
-          <TextField
-            id="title"
-            label="Title"
-            value={state.title}
-            onChange={inputChangeHandler}
-            name='title'
-            required
-          />
+          <TextField id="title" label="Title" value={state.title} onChange={inputChangeHandler} name="title" required />
         </Grid>
         <Grid item xs>
           <TextField
@@ -88,27 +81,29 @@ const TrackForm: React.FC<Props> = ({onSubmit}) => {
             label="Duration"
             value={state.duration}
             onChange={inputChangeHandler}
-            name='duration'
+            name="duration"
             required
           />
         </Grid>
         <Grid item xs>
-          <TextField
-            id="video"
-            label="Video"
-            value={state.video}
-            onChange={inputChangeHandler}
-            name='video'
-          />
+          <TextField id="video" label="Video" value={state.video} onChange={inputChangeHandler} name="video" />
         </Grid>
         <Grid item xs>
           <Button
             type="submit"
             color="primary"
             variant="contained"
-            disabled={trackCreating || state.album === '' || isNaN(parseInt(state.tracknumber)) ||
-              parseInt(state.tracknumber) < 1 || state.title === '' || state.duration === ''}
-          >Create track</Button>
+            disabled={
+              trackCreating ||
+              state.album === '' ||
+              isNaN(parseInt(state.tracknumber)) ||
+              parseInt(state.tracknumber) < 1 ||
+              state.title === '' ||
+              state.duration === ''
+            }
+          >
+            Create track
+          </Button>
         </Grid>
       </Grid>
     </form>

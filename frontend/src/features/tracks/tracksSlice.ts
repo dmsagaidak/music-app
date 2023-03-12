@@ -17,7 +17,7 @@ const initialState: TracksState = {
   createLoading: false,
   deleteLoading: false,
   updateLoading: false,
-}
+};
 
 export const tracksSlice = createSlice({
   name: 'tracks',
@@ -27,7 +27,7 @@ export const tracksSlice = createSlice({
     builder.addCase(fetchTracksByAlbum.pending, (state) => {
       state.fetchLoading = true;
     });
-    builder.addCase(fetchTracksByAlbum.fulfilled, (state, {payload}) => {
+    builder.addCase(fetchTracksByAlbum.fulfilled, (state, { payload }) => {
       state.fetchLoading = false;
       state.items = payload;
     });
@@ -43,7 +43,7 @@ export const tracksSlice = createSlice({
     builder.addCase(createTrack.rejected, (state) => {
       state.createLoading = false;
     });
-    builder.addCase(removeTrack.pending, (state, {meta: {arg: trackId}}) => {
+    builder.addCase(removeTrack.pending, (state, { meta: { arg: trackId } }) => {
       state.deleteLoading = trackId;
     });
     builder.addCase(removeTrack.fulfilled, (state) => {
@@ -61,7 +61,7 @@ export const tracksSlice = createSlice({
     builder.addCase(trackTogglePublished.rejected, (state) => {
       state.updateLoading = false;
     });
-  }
+  },
 });
 
 export const tracksReducer = tracksSlice.reducer;

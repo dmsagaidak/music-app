@@ -9,13 +9,13 @@ interface Props {
   onSubmit: (mutation: ArtistMutation) => void;
 }
 
-const ArtistForm: React.FC<Props> = ({onSubmit}) => {
+const ArtistForm: React.FC<Props> = ({ onSubmit }) => {
   const artistCreating = useAppSelector(selectArtistCreating);
 
   const [state, setState] = useState<ArtistMutation>({
     name: '',
     image: null,
-    info: ''
+    info: '',
   });
 
   const submitFormHandler = (e: React.FormEvent) => {
@@ -24,24 +24,22 @@ const ArtistForm: React.FC<Props> = ({onSubmit}) => {
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = e.target;
-    setState(prevState => {
-      return {...prevState, [name]: value};
+    const { name, value } = e.target;
+    setState((prevState) => {
+      return { ...prevState, [name]: value };
     });
   };
 
   const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {name, files} = e.target;
-    setState(prevState => ({
-      ...prevState, [name]: files && files[0] ? files[0] : null
+    const { name, files } = e.target;
+    setState((prevState) => ({
+      ...prevState,
+      [name]: files && files[0] ? files[0] : null,
     }));
   };
 
   return (
-    <form
-      autoComplete="off"
-      onSubmit={submitFormHandler}
-    >
+    <form autoComplete="off" onSubmit={submitFormHandler}>
       <Grid container direction={'column'} spacing={2}>
         <Grid item xs>
           <TextField
@@ -55,15 +53,12 @@ const ArtistForm: React.FC<Props> = ({onSubmit}) => {
           />
         </Grid>
         <Grid item xs>
-          <FileInput
-            onChange={fileInputChangeHandler}
-            name="image"
-            label="Image"
-          />
+          <FileInput onChange={fileInputChangeHandler} name="image" label="Image" />
         </Grid>
         <Grid item xs>
           <TextField
-            multiline rows={3}
+            multiline
+            rows={3}
             id="info"
             label="Information about artist"
             value={state.info}
@@ -73,12 +68,9 @@ const ArtistForm: React.FC<Props> = ({onSubmit}) => {
           />
         </Grid>
         <Grid item xs>
-          <Button
-            type="submit"
-            color="primary"
-            variant="contained"
-            disabled={artistCreating || state.name === ''}
-          >Create artist</Button>
+          <Button type="submit" color="primary" variant="contained" disabled={artistCreating || state.name === ''}>
+            Create artist
+          </Button>
         </Grid>
       </Grid>
     </form>

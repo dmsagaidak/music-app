@@ -6,7 +6,7 @@ import {
   selectLoginLoading,
   selectLogoutLoading,
   selectRegisterLoading,
-  selectUser
+  selectUser,
 } from '../../../features/users/usersSlice';
 import UserMenu from './UserMenu';
 import AnonymousMenu from './AnonymousMenu';
@@ -16,7 +16,7 @@ const Link = styled(NavLink)({
   color: 'inherit',
   textDecoration: 'none',
   '&:hover': {
-    color: 'inherit'
+    color: 'inherit',
   },
 });
 
@@ -27,14 +27,20 @@ const AppToolbar = () => {
   const logoutLoading = useAppSelector(selectLogoutLoading);
 
   return (
-    <AppBar position="sticky" sx={{mb: 2, background: '#000'}}>
+    <AppBar position="sticky" sx={{ mb: 2, background: '#000' }}>
       <Toolbar>
         <Grid container justifyContent="space-between" alignItems="center">
           <Typography variant="h6" component="div">
             <Link to="/">Music App</Link>
           </Typography>
           <Grid item>
-            {loginLoading || registerLoading || logoutLoading ? <CircularProgressElement/> : (user ? <UserMenu user={user}/> : <AnonymousMenu/>)}
+            {loginLoading || registerLoading || logoutLoading ? (
+              <CircularProgressElement />
+            ) : user ? (
+              <UserMenu user={user} />
+            ) : (
+              <AnonymousMenu />
+            )}
           </Grid>
         </Grid>
       </Toolbar>

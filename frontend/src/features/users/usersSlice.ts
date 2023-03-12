@@ -16,10 +16,10 @@ const initialState: UsersState = {
   user: null,
   registerLoading: false,
   registerError: null,
-  loginLoading:  false,
+  loginLoading: false,
   loginError: null,
   logoutLoading: false,
-}
+};
 
 export const usersSlice = createSlice({
   name: 'users',
@@ -30,23 +30,23 @@ export const usersSlice = createSlice({
       state.registerLoading = true;
       state.registerError = null;
     });
-    builder.addCase(register.fulfilled, (state, {payload}) => {
+    builder.addCase(register.fulfilled, (state, { payload }) => {
       state.registerLoading = false;
       state.user = payload;
     });
-    builder.addCase(register.rejected, (state, {payload}) => {
-      state.registerLoading =  false;
+    builder.addCase(register.rejected, (state, { payload }) => {
+      state.registerLoading = false;
       state.registerError = payload || null;
     });
     builder.addCase(login.pending, (state) => {
       state.loginLoading = true;
       state.loginError = null;
     });
-    builder.addCase(login.fulfilled, (state, {payload}) => {
+    builder.addCase(login.fulfilled, (state, { payload }) => {
       state.loginLoading = false;
       state.user = payload;
     });
-    builder.addCase(login.rejected, (state, {payload}) => {
+    builder.addCase(login.rejected, (state, { payload }) => {
       state.loginLoading = false;
       state.loginError = payload || null;
     });
@@ -60,8 +60,8 @@ export const usersSlice = createSlice({
     builder.addCase(logout.rejected, (state) => {
       state.logoutLoading = false;
     });
-  }
-})
+  },
+});
 
 export const usersReducer = usersSlice.reducer;
 export const selectUser = (state: RootState) => state.users.user;

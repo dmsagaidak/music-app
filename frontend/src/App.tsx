@@ -13,26 +13,25 @@ import NewArtist from './features/artists/NewArtist';
 import NewTrack from './features/tracks/NewTrack';
 
 function App() {
-
   return (
     <>
-      <CssBaseline/>
+      <CssBaseline />
       <header>
-        <AppToolbar/>
+        <AppToolbar />
       </header>
       <main>
         <Container maxWidth="xl">
           <Routes>
-            <Route path='/' element={<Artists/>}/>
-            <Route path='/artists/:id' element={<ArtistPage/>}/>
-            <Route path='/albums/:id' element={<AlbumPage/>}/>
-            <Route path={'/register'} element={<Register/>}/>
-            <Route path={'/login'} element={<Login/>}/>
-            <Route path={'/track_history'} element={<TrackHistory/>}/>
-            <Route path={'/albums/new'} element={<NewAlbum/>}/>
-            <Route path={'/artists/new'} element={<NewArtist/>}/>
-            <Route path={'/tracks/new'} element={<NewTrack/>}/>
-            <Route path="*" element={<h1>Not found!</h1>}/>
+            <Route path="/" element={<Artists />} />
+            <Route path="/artists/:id" element={<ArtistPage />} />
+            <Route path="/albums/:id" element={<AlbumPage />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/track_history" element={<TrackHistory />} />
+            <Route path="/albums/new" element={<NewAlbum />} />
+            <Route path="/artists/new" element={<NewArtist />} />
+            <Route path="/tracks/new" element={<NewTrack />} />
+            <Route path="*" element={<h1>Not found!</h1>} />
           </Routes>
         </Container>
       </main>

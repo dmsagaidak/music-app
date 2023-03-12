@@ -5,7 +5,7 @@ const CircularProgressElement = () => {
   return (
     <>
       <Stack spacing={2}>
-        <CircularProgress color="inherit"/>
+        <CircularProgress color="inherit" />
       </Stack>
     </>
   );

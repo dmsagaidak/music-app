@@ -11,7 +11,7 @@ interface Props {
   onSubmit: (mutation: AlbumMutation) => void;
 }
 
-const AlbumForm: React.FC<Props> = ({onSubmit}) => {
+const AlbumForm: React.FC<Props> = ({ onSubmit }) => {
   const dispatch = useAppDispatch();
   const artists = useAppSelector(selectArtists);
   const albumCreating = useAppSelector(selectAlbumCreating);
@@ -20,7 +20,7 @@ const AlbumForm: React.FC<Props> = ({onSubmit}) => {
     title: '',
     artist: '',
     year: '',
-    image: null
+    image: null,
   });
 
   useEffect(() => {
@@ -33,24 +33,22 @@ const AlbumForm: React.FC<Props> = ({onSubmit}) => {
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = e.target;
-    setState(prevState => {
-      return {...prevState, [name]: value};
+    const { name, value } = e.target;
+    setState((prevState) => {
+      return { ...prevState, [name]: value };
     });
   };
 
   const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {name, files} = e.target;
-    setState(prevState => ({
-      ...prevState, [name]: files && files[0] ? files[0] : null
+    const { name, files } = e.target;
+    setState((prevState) => ({
+      ...prevState,
+      [name]: files && files[0] ? files[0] : null,
     }));
   };
 
   return (
-    <form
-      autoComplete="off"
-      onSubmit={submitFormHandler}
-    >
+    <form autoComplete="off" onSubmit={submitFormHandler}>
       <Grid container direction={'column'} spacing={2}>
         <Grid item xs>
           <TextField
@@ -62,9 +60,13 @@ const AlbumForm: React.FC<Props> = ({onSubmit}) => {
             required
             disabled={albumCreating}
           >
-            <MenuItem value={''} disabled>Please, select an artist</MenuItem>
-            {artists.map(artist => (
-              <MenuItem key={artist._id} value={artist._id}>{artist.name}</MenuItem>
+            <MenuItem value={''} disabled>
+              Please, select an artist
+            </MenuItem>
+            {artists.map((artist) => (
+              <MenuItem key={artist._id} value={artist._id}>
+                {artist.name}
+              </MenuItem>
             ))}
           </TextField>
         </Grid>
@@ -81,29 +83,33 @@ const AlbumForm: React.FC<Props> = ({onSubmit}) => {
         </Grid>
         <Grid item xs>
           <TextField
-          id="year"
-          label="Year"
-          onChange={inputChangeHandler}
-          name="year"
-          required
-          disabled={albumCreating}
+            id="year"
+            label="Year"
+            onChange={inputChangeHandler}
+            name="year"
+            required
+            disabled={albumCreating}
           />
         </Grid>
         <Grid item xs>
-          <FileInput
-            onChange={fileInputChangeHandler}
-            name="image"
-            label="Image"
-          />
+          <FileInput onChange={fileInputChangeHandler} name="image" label="Image" />
         </Grid>
         <Grid item xs>
           <Button
             type="submit"
             color="primary"
             variant="contained"
-            disabled={albumCreating || state.artist === '' || state.title === '' || state.year === ''
-              || isNaN(parseInt(state.year)) || (parseInt(state.year)) < 1889}
-          >Create album</Button>
+            disabled={
+              albumCreating ||
+              state.artist === '' ||
+              state.title === '' ||
+              state.year === '' ||
+              isNaN(parseInt(state.year)) ||
+              parseInt(state.year) < 1889
+            }
+          >
+            Create album
+          </Button>
         </Grid>
       </Grid>
     </form>

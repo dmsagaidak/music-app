@@ -25,7 +25,6 @@ export interface Track {
   isPublished: boolean;
 }
 
-
 export interface ArtistMutation {
   name: string;
   image: File | null;
@@ -69,7 +68,7 @@ export interface ValidationError {
     [key: string]: {
       name: string;
       message: string;
-    }
+    };
   };
   message: string;
   name: string;

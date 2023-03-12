@@ -6,7 +6,7 @@ import {
   fetchAlbums,
   fetchAlbumsByArtist,
   fetchOneAlbum,
-  removeAlbum
+  removeAlbum,
 } from './albumsThunks';
 import { RootState } from '../../app/store';
 
@@ -28,7 +28,7 @@ const initialState: AlbumsState = {
   createLoading: false,
   deleteLoading: false,
   updateLoading: false,
-}
+};
 
 const albumsSlice = createSlice({
   name: 'albums',
@@ -38,7 +38,7 @@ const albumsSlice = createSlice({
     builder.addCase(fetchAlbumsByArtist.pending, (state) => {
       state.fetchLoading = true;
     });
-    builder.addCase(fetchAlbumsByArtist.fulfilled, (state, {payload}) => {
+    builder.addCase(fetchAlbumsByArtist.fulfilled, (state, { payload }) => {
       state.fetchLoading = false;
       state.items = payload;
     });
@@ -48,7 +48,7 @@ const albumsSlice = createSlice({
     builder.addCase(fetchAlbums.pending, (state) => {
       state.fetchLoading = true;
     });
-    builder.addCase(fetchAlbums.fulfilled, (state, {payload}) => {
+    builder.addCase(fetchAlbums.fulfilled, (state, { payload }) => {
       state.fetchLoading = false;
       state.items = payload;
     });
@@ -58,7 +58,7 @@ const albumsSlice = createSlice({
     builder.addCase(fetchOneAlbum.pending, (state) => {
       state.fetchOneLoading = true;
     });
-    builder.addCase(fetchOneAlbum.fulfilled, (state, {payload}) => {
+    builder.addCase(fetchOneAlbum.fulfilled, (state, { payload }) => {
       state.fetchOneLoading = false;
       state.oneItem = payload;
     });
@@ -74,7 +74,7 @@ const albumsSlice = createSlice({
     builder.addCase(createAlbum.rejected, (state) => {
       state.createLoading = false;
     });
-    builder.addCase(removeAlbum.pending, (state, {meta: {arg: albumId}}) => {
+    builder.addCase(removeAlbum.pending, (state, { meta: { arg: albumId } }) => {
       state.deleteLoading = albumId;
     });
     builder.addCase(albumTogglePublished.pending, (state) => {
@@ -86,7 +86,7 @@ const albumsSlice = createSlice({
     builder.addCase(albumTogglePublished.rejected, (state) => {
       state.updateLoading = false;
     });
-  }
+  },
 });
 
 export const albumsReducer = albumsSlice.reducer;

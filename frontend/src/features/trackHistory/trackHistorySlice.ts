@@ -13,7 +13,7 @@ const initialState: TrackHistoryState = {
   items: [],
   fetchLoading: false,
   createLoading: false,
-}
+};
 
 export const trackHistorySlice = createSlice({
   name: 'trackHistory',
@@ -32,14 +32,14 @@ export const trackHistorySlice = createSlice({
     builder.addCase(fetchTrackHistory.pending, (state) => {
       state.fetchLoading = true;
     });
-    builder.addCase(fetchTrackHistory.fulfilled, (state, {payload}) => {
+    builder.addCase(fetchTrackHistory.fulfilled, (state, { payload }) => {
       state.fetchLoading = false;
       state.items = payload;
     });
     builder.addCase(fetchTrackHistory.rejected, (state) => {
       state.fetchLoading = false;
-    })
-  }
+    });
+  },
 });
 
 export const trackHistoryReducer = trackHistorySlice.reducer;

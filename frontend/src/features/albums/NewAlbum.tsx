@@ -13,22 +13,24 @@ const NewAlbum = () => {
   const user = useAppSelector(selectUser);
 
   const onFormSubmit = async (mutation: AlbumMutation) => {
-    try{
+    try {
       await dispatch(createAlbum(mutation));
       navigate('/');
-    }catch (e) {
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
   };
 
-  if(!user){
-    return <Navigate to={'/login'}/>
+  if (!user) {
+    return <Navigate to={'/login'} />;
   }
 
   return (
     <>
-      <Typography variant="h4" sx={{mb: 2}}>New Album</Typography>
-      <AlbumForm onSubmit={onFormSubmit}/>
+      <Typography variant="h4" sx={{ mb: 2 }}>
+        New Album
+      </Typography>
+      <AlbumForm onSubmit={onFormSubmit} />
     </>
   );
 };

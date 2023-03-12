@@ -9,7 +9,7 @@ interface Props {
   user: User;
 }
 
-const UserMenu: React.FC<Props> = ({user}) => {
+const UserMenu: React.FC<Props> = ({ user }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -25,36 +25,19 @@ const UserMenu: React.FC<Props> = ({user}) => {
     dispatch(logout());
   };
 
-
   return (
     <>
-      <Button
-        onClick={handleClick}
-        color="inherit"
-      >
+      <Button onClick={handleClick} color="inherit">
         Hello, {user.username}
       </Button>
-      <Menu
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
+      <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
         <MenuItem>Profile</MenuItem>
         <MenuItem>My account</MenuItem>
-        <MenuItem
-          onClick={() => navigate('/track_history')}
-        >My track history</MenuItem>
-        <MenuItem
-          onClick={() => navigate('/artists/new')}
-        >Add new artist</MenuItem>
-        <MenuItem
-        onClick={() => navigate('/albums/new')}>Add new album</MenuItem>
-        <MenuItem
-          onClick={() => navigate('/tracks/new')}>Add new track</MenuItem>
-        <MenuItem
-          onClick={handleLogout}
-        >Logout</MenuItem>
+        <MenuItem onClick={() => navigate('/track_history')}>My track history</MenuItem>
+        <MenuItem onClick={() => navigate('/artists/new')}>Add new artist</MenuItem>
+        <MenuItem onClick={() => navigate('/albums/new')}>Add new album</MenuItem>
+        <MenuItem onClick={() => navigate('/tracks/new')}>Add new track</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </>
   );

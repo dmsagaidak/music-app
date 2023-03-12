@@ -13,21 +13,23 @@ const NewTrack = () => {
   const user = useAppSelector(selectUser);
 
   const onFormSubmit = async (mutation: TrackMutation) => {
-    try{
+    try {
       await dispatch(createTrack(mutation));
       navigate('/');
-    }catch (e) {
+    } catch (e) {
       console.log(e);
     }
-  }
+  };
 
-  if(!user){
-    return <Navigate to={'/login'}/>
+  if (!user) {
+    return <Navigate to={'/login'} />;
   }
   return (
     <>
-      <Typography variant="h4" sx={{mb: 2}}>New track</Typography>
-      <TrackForm onSubmit={onFormSubmit}/>
+      <Typography variant="h4" sx={{ mb: 2 }}>
+        New track
+      </Typography>
+      <TrackForm onSubmit={onFormSubmit} />
     </>
   );
 };

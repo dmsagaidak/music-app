@@ -14,24 +14,22 @@ const usersPersistConfig = {
   whitelist: ['user'],
 };
 
-const rootReducer = combineReducers(
-  {
-    artists: artistsReducer,
-    albums: albumsReducer,
-    tracks: tracksReducer,
-    users: persistReducer(usersPersistConfig, usersReducer),
-    trackHistory: trackHistoryReducer
-  }
-)
+const rootReducer = combineReducers({
+  artists: artistsReducer,
+  albums: albumsReducer,
+  tracks: tracksReducer,
+  users: persistReducer(usersPersistConfig, usersReducer),
+  trackHistory: trackHistoryReducer,
+});
 
 export const store = configureStore({
-    reducer: rootReducer,
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware({
-        serializableCheck: {
-          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-        },
-      }),
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
 
 export const persistor = persistStore(store);

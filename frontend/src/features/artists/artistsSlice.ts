@@ -31,7 +31,7 @@ const artistsSlice = createSlice({
     builder.addCase(fetchArtists.pending, (state) => {
       state.fetchLoading = true;
     });
-    builder.addCase(fetchArtists.fulfilled, (state, {payload}) => {
+    builder.addCase(fetchArtists.fulfilled, (state, { payload }) => {
       state.fetchLoading = false;
       state.items = payload;
     });
@@ -41,12 +41,12 @@ const artistsSlice = createSlice({
     builder.addCase(fetchOneArtist.pending, (state) => {
       state.fetchOneLoading = true;
     });
-    builder.addCase(fetchOneArtist.fulfilled, (state, {payload}) => {
+    builder.addCase(fetchOneArtist.fulfilled, (state, { payload }) => {
       state.fetchOneLoading = false;
       state.oneItem = payload;
     });
     builder.addCase(fetchOneArtist.rejected, (state) => {
-      state.fetchOneLoading = false
+      state.fetchOneLoading = false;
     });
     builder.addCase(createArtist.pending, (state) => {
       state.createLoading = true;
@@ -57,7 +57,7 @@ const artistsSlice = createSlice({
     builder.addCase(createArtist.rejected, (state) => {
       state.createLoading = false;
     });
-    builder.addCase(removeArtist.pending, (state, {meta: {arg: artistId}}) => {
+    builder.addCase(removeArtist.pending, (state, { meta: { arg: artistId } }) => {
       state.deleteLoading = artistId;
     });
     builder.addCase(removeArtist.fulfilled, (state) => {
@@ -75,7 +75,7 @@ const artistsSlice = createSlice({
     builder.addCase(artistTogglePublished.rejected, (state) => {
       state.updateLoading = false;
     });
-  }
+  },
 });
 
 export const artistsReducer = artistsSlice.reducer;
