@@ -1,12 +1,12 @@
 import cors from 'cors';
 import express from 'express';
 import mongoose from 'mongoose';
-import artistsRouter from "./routers/artists";
-import albumsRouter from "./routers/albums";
-import tracksRouter from "./routers/tracks";
-import usersRouter from "./routers/users";
-import trackHistoryRouter from "./routers/trackHistory";
-import config from "./config";
+import artistsRouter from './routers/artists';
+import albumsRouter from './routers/albums';
+import tracksRouter from './routers/tracks';
+import usersRouter from './routers/users';
+import trackHistoryRouter from './routers/trackHistory';
+import config from './config';
 
 const app = express();
 const port = 8080;
@@ -21,17 +21,16 @@ app.use('/users', usersRouter);
 app.use('/track_history', trackHistoryRouter);
 
 const run = async () => {
-    mongoose.set('strictQuery', false);
-    await mongoose.connect(config.db);
+  mongoose.set('strictQuery', false);
+  await mongoose.connect(config.db);
 
-    app.listen(port, () => {
-        console.log('The server runs on ' + port);
-    });
+  app.listen(port, () => {
+    console.log('The server runs on ' + port);
+  });
 
-    process.on('exit', () => {
-        mongoose.disconnect();
-    });
+  process.on('exit', () => {
+    mongoose.disconnect();
+  });
 };
 
 run().catch(console.error);
-

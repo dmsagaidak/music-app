@@ -3,3 +3,5 @@
 
 cd frontend
 npm run typecheck && npm run lint
+cd api
+npm run typecheck && npm run lint
