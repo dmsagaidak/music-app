@@ -319,20 +319,26 @@ const run = async () => {
     {
       username: 'user1',
       password: '111',
+      displayName: 'Tom Sawyer',
       token: crypto.randomUUID(),
       role: 'user',
+      image: 'fixtures/tomsawyer.jpg',
     },
     {
       username: 'user2',
       password: '222',
+      displayName: 'Joe the Indian',
       token: crypto.randomUUID(),
       role: 'user',
+      image: 'fixtures/joeindian.jpeg',
     },
     {
       username: 'admin',
       password: '1234',
+      displayName: 'Zloy Admin',
       token: crypto.randomUUID(),
       role: 'admin',
+      image: 'fixtures/admin.webp',
     },
   );
 

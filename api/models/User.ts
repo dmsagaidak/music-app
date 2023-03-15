@@ -10,7 +10,7 @@ interface IUserMethods {
   generateToken(): void;
 }
 
-type UserModel = Model<IUser, {}, IUserMethods>;
+type UserModel = Model<IUser, Record<string, never>, IUserMethods>;
 
 const Schema = mongoose.Schema;
 
@@ -23,7 +23,7 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
       validator: async function (this: HydratedDocument<IUser>, username: string): Promise<boolean> {
         if (!this.isModified('username')) return true;
         const user: HydratedDocument<IUser> | null = await User.findOne({ username });
-        return !Boolean(user);
+        return !user;
       },
       message: 'This user is already registered',
     },
@@ -42,6 +42,15 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
     default: 'user',
     enum: ['user', 'admin'],
   },
+  displayName: {
+    type: String,
+    required: true,
+  },
+  googleId: String,
+  image: {
+    type: String,
+    required: true,
+  },
 });
 
 UserSchema.pre('save', async function (next) {
@@ -54,7 +63,7 @@ UserSchema.pre('save', async function (next) {
 });
 
 UserSchema.set('toJSON', {
-  transform: (doc, ret, options) => {
+  transform: (doc, ret) => {
     delete ret.password;
     return ret;
   },

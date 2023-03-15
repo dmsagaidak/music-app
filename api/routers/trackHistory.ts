@@ -4,7 +4,6 @@ import { ApiTrack } from '../types';
 import TrackHistory from '../models/TrackHistory';
 import auth, { RequestWithUser } from '../middleware/auth';
 import Track from '../models/Track';
-
 const trackHistoryRouter = express.Router();
 
 trackHistoryRouter.post('/', auth, async (req, res, next) => {

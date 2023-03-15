@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { selectRegisterError } from './usersSlice';
 import { register } from './usersThunks';
+import FileInput from '../../components/UI/FileInput/FileInput';
 
 const Register = () => {
   const dispatch = useAppDispatch();
@@ -14,7 +15,9 @@ const Register = () => {
 
   const [state, setState] = useState<RegisterMutation>({
     username: '',
+    displayName: '',
     password: '',
+    image: null,
   });
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,6 +26,14 @@ const Register = () => {
     setState((prevState) => {
       return { ...prevState, [name]: value };
     });
+  };
+
+  const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
+    setState((prevState) => ({
+      ...prevState,
+      [name]: files && files[0] ? files[0] : null,
+    }));
   };
 
   const submitFormHandler = async (event: React.FormEvent) => {
@@ -76,6 +87,19 @@ const Register = () => {
             <Grid item xs={12}>
               <TextField
                 required
+                name="displayName"
+                type="displayName"
+                label="Display name"
+                autoComplete="new-displayname"
+                value={state.displayName}
+                onChange={inputChangeHandler}
+                error={Boolean(getFieldError('displayName'))}
+                helperText={Boolean(getFieldError('displayName'))}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
                 name="password"
                 label="Password"
                 type="password"
@@ -85,6 +109,9 @@ const Register = () => {
                 error={Boolean(getFieldError('password'))}
                 helperText={getFieldError('password')}
               />
+            </Grid>
+            <Grid item xs>
+              <FileInput onChange={fileInputChangeHandler} name="image" label="Image" />
             </Grid>
           </Grid>
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>

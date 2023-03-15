@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { User } from '../../../types';
-import { Button, Menu, MenuItem } from '@mui/material';
+import { Button, Menu, MenuItem, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../app/hooks';
 import { logout } from '../../../features/users/usersThunks';
+import { apiUrl } from '../../../constants';
 
 interface Props {
   user: User;
@@ -25,10 +26,24 @@ const UserMenu: React.FC<Props> = ({ user }) => {
     dispatch(logout());
   };
 
+  let userImg;
+
+  if (user.image && user.googleId) {
+    userImg = user.image;
+  } else {
+    userImg = apiUrl + '/' + user.image;
+  }
+
   return (
     <>
       <Button onClick={handleClick} color="inherit">
-        Hello, {user.username}
+        <Typography
+          component="img"
+          src={userImg}
+          alt={user.displayName}
+          style={{ width: '30px', height: '30px', borderRadius: '50%', marginRight: '15px' }}
+        />{' '}
+        Hello, {user.displayName}
       </Button>
       <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
         <MenuItem>Profile</MenuItem>
