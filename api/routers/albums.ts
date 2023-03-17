@@ -79,12 +79,6 @@ albumsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, next
 
 albumsRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
   try {
-    const user = (req as RequestWithUser).user;
-
-    if (user.role !== 'admin') {
-      res.status(403).send({ message: 'Only admins can delete this  item' });
-    }
-
     const removingAlbum = await Album.findById(req.params.id);
     const currentTracks = await Track.find({ album: req.params.id });
 
@@ -107,12 +101,6 @@ albumsRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
 
 albumsRouter.patch('/:id/togglePublished', auth, permit('admin'), async (req, res, next) => {
   try {
-    const user = (req as RequestWithUser).user;
-
-    if (user.role !== 'admin') {
-      res.status(403).send({ message: 'Only admins can toggle items status' });
-    }
-
     const updatingAlbum = await Album.findById(req.params.id);
 
     if (!updatingAlbum) {

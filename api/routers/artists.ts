@@ -67,12 +67,6 @@ artistsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, nex
 
 artistsRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
   try {
-    const user = (req as RequestWithUser).user;
-
-    if (user.role !== 'admin') {
-      res.status(403).send({ message: 'Only admins can delete this  item' });
-    }
-
     const removingArtist = await Artist.findById(req.params.id);
     const currentAlbums = await Album.find({ artist: req.params.id });
     const albumIds = currentAlbums.map((album) => {
@@ -99,12 +93,6 @@ artistsRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
 
 artistsRouter.patch('/:id/togglePublished', auth, permit('admin'), async (req, res, next) => {
   try {
-    const user = (req as RequestWithUser).user;
-
-    if (user.role !== 'admin') {
-      res.status(403).send({ message: 'Only admins can toggle items status' });
-    }
-
     const updatingArtist = await Artist.findById(req.params.id);
 
     if (!updatingArtist) {

@@ -92,12 +92,6 @@ tracksRouter.post('/', auth, async (req, res, next) => {
 
 tracksRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
   try {
-    const user = (req as RequestWithUser).user;
-
-    if (user.role !== 'admin') {
-      res.status(403).send({ message: 'Only admins can delete this  item' });
-    }
-
     const removingTrack = await Track.findById(req.params.id);
     if (!removingTrack) {
       return res.status(404).send({ error: 'Track not found' });
@@ -116,12 +110,6 @@ tracksRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
 
 tracksRouter.patch('/:id/togglePublished', auth, permit('admin'), async (req, res, next) => {
   try {
-    const user = (req as RequestWithUser).user;
-
-    if (user.role !== 'admin') {
-      res.status(403).send({ message: 'Only admins can toggle items status' });
-    }
-
     const updatingTrack = await Track.findById(req.params.id);
 
     if (!updatingTrack) {
