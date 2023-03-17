@@ -68,7 +68,7 @@ const ArtistForm: React.FC<Props> = ({ onSubmit }) => {
           />
         </Grid>
         <Grid item xs>
-          <Button type="submit" color="primary" variant="contained" disabled={artistCreating || state.name === ''}>
+          <Button type="submit" color="primary" variant="contained" disabled={artistCreating}>
             Create artist
           </Button>
         </Grid>

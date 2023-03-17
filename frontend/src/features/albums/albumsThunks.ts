@@ -29,7 +29,7 @@ export const createAlbum = createAsyncThunk<void, AlbumMutation>('albums/create'
   keys.forEach((key) => {
     const value = albumMutation[key];
     if (value !== null) {
-      formData.append(key, value);
+      formData.append(key, value.toString());
     }
   });
   await axiosApi.post('/albums', formData);

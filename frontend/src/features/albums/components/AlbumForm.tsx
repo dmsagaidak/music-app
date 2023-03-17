@@ -19,7 +19,7 @@ const AlbumForm: React.FC<Props> = ({ onSubmit }) => {
   const [state, setState] = useState<AlbumMutation>({
     title: '',
     artist: '',
-    year: '',
+    year: 0,
     image: null,
   });
 
@@ -85,7 +85,9 @@ const AlbumForm: React.FC<Props> = ({ onSubmit }) => {
           <TextField
             id="year"
             label="Year"
+            type={'number'}
             onChange={inputChangeHandler}
+            InputProps={{ inputProps: { min: 1889 } }}
             name="year"
             required
             disabled={albumCreating}
@@ -95,19 +97,7 @@ const AlbumForm: React.FC<Props> = ({ onSubmit }) => {
           <FileInput onChange={fileInputChangeHandler} name="image" label="Image" />
         </Grid>
         <Grid item xs>
-          <Button
-            type="submit"
-            color="primary"
-            variant="contained"
-            disabled={
-              albumCreating ||
-              state.artist === '' ||
-              state.title === '' ||
-              state.year === '' ||
-              isNaN(parseInt(state.year)) ||
-              parseInt(state.year) < 1889
-            }
-          >
+          <Button type="submit" color="primary" variant="contained" disabled={albumCreating}>
             Create album
           </Button>
         </Grid>

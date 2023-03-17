@@ -34,12 +34,12 @@ export interface ArtistMutation {
 export interface AlbumMutation {
   title: string;
   artist: string;
-  year: string;
+  year: number;
   image: File | null;
 }
 
 export interface TrackMutation {
-  tracknumber: string;
+  tracknumber: number;
   title: string;
   album: string;
   duration: string;

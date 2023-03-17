@@ -16,7 +16,7 @@ const TrackForm: React.FC<Props> = ({ onSubmit }) => {
   const trackCreating = useAppSelector(selectTrackCreating);
 
   const [state, setState] = useState<TrackMutation>({
-    tracknumber: '',
+    tracknumber: 0,
     title: '',
     album: '',
     duration: '',
@@ -64,11 +64,13 @@ const TrackForm: React.FC<Props> = ({ onSubmit }) => {
         </Grid>
         <Grid item xs>
           <TextField
+            type="number"
             id="tracknumber"
             label="Track number"
             value={state.tracknumber}
             onChange={inputChangeHandler}
             name="tracknumber"
+            InputProps={{ inputProps: { min: 1 } }}
             required
           />
         </Grid>
@@ -89,19 +91,7 @@ const TrackForm: React.FC<Props> = ({ onSubmit }) => {
           <TextField id="video" label="Video" value={state.video} onChange={inputChangeHandler} name="video" />
         </Grid>
         <Grid item xs>
-          <Button
-            type="submit"
-            color="primary"
-            variant="contained"
-            disabled={
-              trackCreating ||
-              state.album === '' ||
-              isNaN(parseInt(state.tracknumber)) ||
-              parseInt(state.tracknumber) < 1 ||
-              state.title === '' ||
-              state.duration === ''
-            }
-          >
+          <Button type="submit" color="primary" variant="contained" disabled={trackCreating}>
             Create track
           </Button>
         </Grid>
