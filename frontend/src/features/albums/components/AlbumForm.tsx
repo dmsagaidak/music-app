@@ -6,6 +6,7 @@ import { fetchArtists } from '../../artists/artistsThunks';
 import { Button, Grid, MenuItem, TextField } from '@mui/material';
 import FileInput from '../../../components/UI/FileInput/FileInput';
 import { selectAlbumCreating } from '../albumsSlice';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   onSubmit: (mutation: AlbumMutation) => void;
@@ -15,6 +16,7 @@ const AlbumForm: React.FC<Props> = ({ onSubmit }) => {
   const dispatch = useAppDispatch();
   const artists = useAppSelector(selectArtists);
   const albumCreating = useAppSelector(selectAlbumCreating);
+  const navigate = useNavigate();
 
   const [state, setState] = useState<AlbumMutation>({
     title: '',
@@ -30,6 +32,7 @@ const AlbumForm: React.FC<Props> = ({ onSubmit }) => {
   const submitFormHandler = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(state);
+    navigate('/artists/' + state.artist);
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {

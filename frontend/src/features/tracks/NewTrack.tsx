@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { selectUser } from '../users/usersSlice';
 import { TrackMutation } from '../../types';
 import { createTrack } from './tracksThunks';
@@ -9,13 +9,11 @@ import TrackForm from './components/TrackForm';
 
 const NewTrack = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const user = useAppSelector(selectUser);
 
   const onFormSubmit = async (mutation: TrackMutation) => {
     try {
       await dispatch(createTrack(mutation));
-      navigate('/');
     } catch (e) {
       console.log(e);
     }

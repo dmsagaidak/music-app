@@ -5,6 +5,7 @@ import { selectAlbums } from '../../albums/albumsSlice';
 import { selectTrackCreating } from '../tracksSlice';
 import { fetchAlbums } from '../../albums/albumsThunks';
 import { Button, Grid, MenuItem, TextField } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   onSubmit: (mutation: TrackMutation) => void;
@@ -14,6 +15,7 @@ const TrackForm: React.FC<Props> = ({ onSubmit }) => {
   const dispatch = useAppDispatch();
   const albums = useAppSelector(selectAlbums);
   const trackCreating = useAppSelector(selectTrackCreating);
+  const navigate = useNavigate();
 
   const [state, setState] = useState<TrackMutation>({
     tracknumber: 0,
@@ -30,6 +32,7 @@ const TrackForm: React.FC<Props> = ({ onSubmit }) => {
   const submitFormHandler = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(state);
+    navigate('/albums/' + state.album);
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
